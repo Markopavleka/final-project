@@ -40,7 +40,7 @@ const testAdminUsers: AdminUser[] = [
 export async function up(sql: Sql) {
   for (const testAdminUser of testAdminUsers) {
     await sql`
-      INSERT INTO user
+      INSERT INTO adminuser
         (user_name, email, password,
           profile_picture_url,shop_name,shop_description,shop_link,created_at)
       VALUES
@@ -53,7 +53,7 @@ export async function up(sql: Sql) {
 export async function down(sql: Sql) {
   for (const testAdminUser of testAdminUsers) {
     await sql`
-      DELETE FROM testAdminUsers WHERE id = ${testAdminUser.id}
+      DELETE FROM adminusers WHERE id = ${testAdminUser.id}
     `;
   }
 }

@@ -2,7 +2,7 @@ import { Sql } from 'postgres';
 
 export type Post = {
   id: number;
-  userId: number;
+  adminUserId: number;
   imageUrl: string;
   description: string;
   createdAt: Date;
@@ -11,9 +11,9 @@ export type Post = {
 export async function up(sql: Sql) {
   await sql`
     CREATE TABLE posts (
-      id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      user_id integer NOT NULL,
-      image_url integer NOT NULL,
+      id serial PRIMARY KEY,
+      admin_user_id integer NOT NULL,
+      image_url text NOT NULL,
       description text NOT NULL,
       created_at timestamp NOT NULL
     );
@@ -22,6 +22,6 @@ export async function up(sql: Sql) {
 
 export async function down(sql: Sql) {
   await sql`
-    DROP TABLE posts
+    DROP TABLE posts;
   `;
 }

@@ -42,18 +42,18 @@ const testComments: Comment[] = [
 export async function up(sql: Sql) {
   for (const testComment of testComments) {
     await sql`
-      INSERT INTO user
-        (user_id,post_id,comment_text,created_at)
+      INSERT INTO comment
+        (user_id, post_id, comment_text, created_at)
       VALUES
-        (${testComment.userId}, ${testComment.postId}, ${testComment.commentText},${testComment.createdAt})
-  `;
+        (${testComment.userId}, ${testComment.postId}, ${testComment.commentText}, ${testComment.createdAt});
+    `;
   }
 }
 
 export async function down(sql: Sql) {
   for (const testComment of testComments) {
     await sql`
-      DELETE FROM testComments WHERE id = ${testComment.id}
+      DELETE FROM comment WHERE id = ${testComment.id};
     `;
   }
 }

@@ -37,18 +37,18 @@ const testLikes: Likes[] = [
 export async function up(sql: Sql) {
   for (const testLike of testLikes) {
     await sql`
-      INSERT INTO user
-        (user_id,post_id,created_at)
+      INSERT INTO likes
+        (user_id, post_id, created_at)
       VALUES
-        (${testLike.userId}, ${testLike.postId} ,${testLike.createdAt})
-  `;
+        (${testLike.userId}, ${testLike.postId}, ${testLike.createdAt});
+    `;
   }
 }
 
 export async function down(sql: Sql) {
   for (const testLike of testLikes) {
     await sql`
-      DELETE FROM testLikes WHERE id = ${testLike.id}
+      DELETE FROM likes WHERE id = ${testLike.id};
     `;
   }
 }

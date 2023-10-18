@@ -11,7 +11,7 @@ export type Comment = {
 export async function up(sql: Sql) {
   await sql`
     CREATE TABLE comment (
-      id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+      id serial PRIMARY KEY,
       user_id integer NOT NULL,
       post_id integer NOT NULL,
       comment_text text NOT NULL,
@@ -22,6 +22,6 @@ export async function up(sql: Sql) {
 
 export async function down(sql: Sql) {
   await sql`
-    DROP TABLE comment
+    DROP TABLE comment;
   `;
 }

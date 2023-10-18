@@ -44,7 +44,7 @@ console.log(testUsers);
 export async function up(sql: Sql) {
   for (const testUser of testUsers) {
     await sql`
-      INSERT INTO user
+      INSERT INTO users
         (user_name, email, password,created_at)
       VALUES
         (${testUser.userName}, ${testUser.email}, ${testUser.password},${testUser.createdAt})
@@ -55,7 +55,7 @@ export async function up(sql: Sql) {
 export async function down(sql: Sql) {
   for (const testUser of testUsers) {
     await sql`
-      DELETE FROM testUsers WHERE id = ${testUser.id}
+      DELETE FROM users WHERE id = ${testUser.id}
     `;
   }
 }

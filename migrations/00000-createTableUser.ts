@@ -10,8 +10,8 @@ export type User = {
 
 export async function up(sql: Sql) {
   await sql`
-    CREATE TABLE user (
-      id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    CREATE TABLE users (
+      id serial PRIMARY KEY,
       user_name varchar(30) NOT NULL,
       email varchar(30) NOT NULL,
       password varchar(30) NOT NULL,
@@ -22,6 +22,6 @@ export async function up(sql: Sql) {
 
 export async function down(sql: Sql) {
   await sql`
-    DROP TABLE user
+    DROP TABLE users
   `;
 }
