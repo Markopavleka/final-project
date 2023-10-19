@@ -1,7 +1,7 @@
 import { Sql } from 'postgres';
-import { Likes } from './00004-createTableLikes';
+import { Like } from './00004-createTableLikes';
 
-const testLikes: Likes[] = [
+const testLikes: Like[] = [
   {
     id: 1,
     userId: 1,

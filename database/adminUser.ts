@@ -4,7 +4,6 @@ import { AdminUser } from '../migrations/00002-createTableAdminUser';
 import { sql } from './connect';
 
 export const getAdminUser = cache(async () => {
-  // return animals;
   const adminUsers = await sql<AdminUser[]>`
     SELECT * FROM adminusers
   `;
@@ -39,7 +38,7 @@ export const getAdminUserById = cache(async (id: number) => {
   return adminUser;
 });
 
-export const deleteAnimalById = cache(async (id: number) => {
+export const deleteAdminUserById = cache(async (id: number) => {
   const [adminUser] = await sql<AdminUser[]>`
     DELETE FROM
       adminusers
@@ -75,7 +74,7 @@ export const createAdminUser = cache(
   },
 );
 
-export const updateAnimalById = cache(
+export const updateAdminUserById = cache(
   async (
     id: number,
     userName: string,
@@ -87,11 +86,10 @@ export const updateAnimalById = cache(
     shopLink: string,
     createdAt: Date,
   ) => {
-    const [animal] = await sql<AdminUser[]>`
-      UPDATE
-        adminusers
+    const [adminUser] = await sql<AdminUser[]>`
+      UPDATE adminusers
       SET
-      user_name = ${userName},
+        user_name = ${userName},
         email = ${email},
         password = ${password},
         profile_picture_url = ${profilePictureUrl},
@@ -102,6 +100,6 @@ export const updateAnimalById = cache(
       WHERE id = ${id}
       RETURNING *
     `;
-    return animal;
+    return adminUser;
   },
 );

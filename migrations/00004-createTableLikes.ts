@@ -1,6 +1,6 @@
 import { Sql } from 'postgres';
 
-export type Likes = {
+export type Like = {
   id: number;
   userId: number;
   postId: number;
