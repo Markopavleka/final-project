@@ -40,7 +40,7 @@ const testAdminUsers: AdminUser[] = [
 export async function up(sql: Sql) {
   for (const testAdminUser of testAdminUsers) {
     await sql`
-      INSERT INTO adminuser
+      INSERT INTO adminusers
         (user_name, email, password,
           profile_picture_url,shop_name,shop_description,shop_link,created_at)
       VALUES
