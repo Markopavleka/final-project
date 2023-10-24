@@ -1,6 +1,6 @@
 import 'server-only';
 import { cache } from 'react';
-import { Comment } from '../migrations/00008-createTableComment';
+import { Comment } from '../migrations.test/00008-createTableComment';
 import { sql } from './connect';
 
 export const getComments = cache(async () => {

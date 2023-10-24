@@ -1,10 +1,13 @@
 'use client';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import { getUserBySessionToken } from '../../database/users';
+import LogoutButton from '../api/(auth)/logout/LogoutButton';
 
-export default function Navbar() {
-  const [theme, setTheme] = useState(
-    localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light',
+export default async function Navbar() {
+  const [theme, setTheme] = useState<string>(
+    localStorage.getItem('theme') || 'light',
   );
 
   // update state on toggle
@@ -24,6 +27,12 @@ export default function Navbar() {
       document.documentElement.setAttribute('data-theme', localTheme);
     }
   }, [theme]);
+
+  const cookieStore = cookies();
+  const sessionToken = cookieStore.get('sessionToken');
+
+  const user =
+    sessionToken && (await getUserBySessionToken(sessionToken.value));
 
   return (
     <header className="mx-10 z-[9999]">
@@ -70,13 +79,23 @@ export default function Navbar() {
             TechNewZ
           </Link>
         </div>
-        <div className="navbar-end mr-2">
-          <div className="flex-none">
-            <Link href="/signin" tabIndex={0}>
-              Sign In
+
+        {user ? (
+          <LogoutButton />
+        ) : (
+          <div className="navbar-end mr-2">
+            <div className="flex-none">
+              <Link href="/signin" tabIndex={0}>
+                Sign In
+              </Link>
+            </div>
+            <div className="mx-2"> | </div>
+            <Link href="/register" tabIndex={0}>
+              Sign Up
             </Link>
           </div>
-        </div>
+        )}
+
         <input
           onChange={handleToggle}
           type="checkbox"

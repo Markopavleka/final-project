@@ -1,6 +1,6 @@
 import 'server-only';
 import { cache } from 'react';
-import { Post } from '../migrations/00006-createTablePost';
+import { Post } from '../migrations.test/00006-createTablePost';
 import { sql } from './connect';
 
 export const getPosts = cache(async () => {

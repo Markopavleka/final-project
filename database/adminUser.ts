@@ -1,6 +1,6 @@
 import 'server-only';
 import { cache } from 'react';
-import { AdminUser } from '../migrations/00002-createTableAdminUser';
+import { AdminUser } from '../migrations.test/00002-createTableAdminUser';
 import { sql } from './connect';
 
 export const getAdminUser = cache(async () => {

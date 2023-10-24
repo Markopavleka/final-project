@@ -1,6 +1,6 @@
 import 'server-only';
 import { cache } from 'react';
-import { Like } from '../migrations/00004-createTableLikes';
+import { Like } from '../migrations.test/00004-createTableLikes';
 import { sql } from './connect';
 
 export const getLike = cache(async () => {
