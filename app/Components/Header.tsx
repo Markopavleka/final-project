@@ -1,36 +1,12 @@
-'use client';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
-import { ReactNode, useEffect, useState } from 'react';
 import { getUserBySessionToken } from '../../database/users';
 import LogoutButton from '../api/(auth)/logout/LogoutButton';
+import ThemeSwitch from './action';
 
 export default async function Navbar() {
-  const [theme, setTheme] = useState<string>(
-    localStorage.getItem('theme') || 'light',
-  );
-
-  // update state on toggle
-  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      setTheme('myThemeDark');
-    } else {
-      setTheme('myThemeLight');
-    }
-  };
-
-  useEffect(() => {
-    localStorage.setItem('theme', theme);
-    const localTheme = localStorage.getItem('theme');
-
-    if (localTheme !== null) {
-      document.documentElement.setAttribute('data-theme', localTheme);
-    }
-  }, [theme]);
-
   const cookieStore = cookies();
   const sessionToken = cookieStore.get('sessionToken');
-
   const user =
     sessionToken && (await getUserBySessionToken(sessionToken.value));
 
@@ -57,7 +33,7 @@ export default async function Navbar() {
             </button>
             <ul className="menu menu-lg frosted dropdown-content mt-3 z-[999] p-2 rounded-box w-52">
               <li>
-                <Link href="/" tabIndex={0}>
+                <Link href="/news" tabIndex={0}>
                   News
                 </Link>
               </li>
@@ -79,28 +55,23 @@ export default async function Navbar() {
             TechNewZ
           </Link>
         </div>
-
-        {user ? (
-          <LogoutButton />
-        ) : (
-          <div className="navbar-end mr-2">
-            <div className="flex-none">
-              <Link href="/signin" tabIndex={0}>
+        <div className="navbar-end mr-2">
+          {user ? (
+            <LogoutButton />
+          ) : (
+            <div className="flex-row mx-2">
+              <Link href="/signin" tabIndex={0} className="mr-2">
                 Sign In
               </Link>
+              |
+              <Link href="/register" tabIndex={0} className="ml-2">
+                Sign Up
+              </Link>
             </div>
-            <div className="mx-2"> | </div>
-            <Link href="/register" tabIndex={0}>
-              Sign Up
-            </Link>
-          </div>
-        )}
+          )}
+        </div>
 
-        <input
-          onChange={handleToggle}
-          type="checkbox"
-          className="toggle mr-2"
-        />
+        <ThemeSwitch />
       </div>
     </header>
   );
