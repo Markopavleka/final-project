@@ -33,17 +33,21 @@ export default async function Navbar() {
             </button>
             <ul className="menu menu-lg frosted dropdown-content mt-3 z-[999] p-2 rounded-box w-52">
               <li>
-                <Link href="/news" tabIndex={0}>
+                <Link className="hover:underline" href="/news" tabIndex={0}>
                   News
                 </Link>
               </li>
               <li>
-                <Link href="/" tabIndex={0} data-test-id="products-link">
+                <Link
+                  className="hover:underline"
+                  href="/community"
+                  tabIndex={0}
+                >
                   Community
                 </Link>
               </li>
               <li>
-                <Link href="/" tabIndex={0}>
+                <Link className="hover:underline" href="/" tabIndex={0}>
                   Messages
                 </Link>
               </li>
@@ -60,11 +64,19 @@ export default async function Navbar() {
             <LogoutButton />
           ) : (
             <div className="flex-row mx-2">
-              <Link href="/signin" tabIndex={0} className="mr-2">
+              <Link
+                href="/signin"
+                tabIndex={0}
+                className=" hover:underline mr-2 text-xl"
+              >
                 Sign In
               </Link>
               |
-              <Link href="/register" tabIndex={0} className="ml-2">
+              <Link
+                href="/register"
+                tabIndex={0}
+                className="hover:underline ml-2 text-xl"
+              >
                 Sign Up
               </Link>
             </div>

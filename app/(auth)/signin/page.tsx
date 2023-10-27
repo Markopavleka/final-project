@@ -3,7 +3,7 @@ import SignInForm from './SignInForm';
 
 export default function page() {
   return (
-    <div>
+    <div className="h-screen">
       <SignInForm />
     </div>
   );

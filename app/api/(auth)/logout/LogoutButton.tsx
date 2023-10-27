@@ -4,7 +4,10 @@ import { logout } from './action';
 export default function LogoutButton() {
   return (
     <form>
-      <button formAction={logout}> Logout </button>
+      <button className="hover:underline mr-2 text-xl" formAction={logout}>
+        {' '}
+        Logout{' '}
+      </button>
     </form>
   );
 }

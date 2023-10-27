@@ -20,8 +20,7 @@ module.exports = {
           'background-image':
             'linear-gradient( to left top,#b904ac,#8e239a,#672983,#462769,#2c214c,#2c214c,#2c214c,#2c214c,#462769,#672983,#8e239a,#b904ac)',
           'background-size': 'cover',
-          'background-repeat': ' no-repeat',
-          height: '100vh',
+          'background-repeat': 'no-repeat',
           color: '#F5F5F5',
         },
       },
@@ -35,9 +34,8 @@ module.exports = {
           'background-image':
             'linear-gradient(to right top, #e4eef1, #cfe8f0, #b9e2ee, #a1dced, #87d6ec, #80d0e4, #7ac9dd, #73c3d5, #7fbbc6, #8ab3b8, #93aaab, #9aa1a1)',
           'background-size': 'cover',
-          'background-repeat': ' no-repeat',
-          height: '100vh',
-          color: '#F5F5F5',
+          'background-repeat': 'no-repeat',
+          color: '#545454',
         },
       },
     ],

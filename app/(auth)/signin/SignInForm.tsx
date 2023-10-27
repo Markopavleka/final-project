@@ -32,9 +32,7 @@ export default function SignInForm(props: Props) {
       return;
     }
 
-    router.push(
-      getSafeReturnToPath(props.returnTo) || `/profile/${data.user.username}`,
-    );
+    router.push(getSafeReturnToPath(props.returnTo) || `/news`);
 
     router.refresh();
   }
@@ -44,22 +42,23 @@ export default function SignInForm(props: Props) {
       <div className="card frosted z-[1] p-8 w-96">
         <form
           onSubmit={async (event) => await handleRegister(event)}
-          className="grid"
+          className="grid justify-center align-center"
         >
-          <h1 className="m-4 text-lg text-center">Sign In</h1>
-          <label className="mb-1 ml-4 text-md">
-            Username
+          <h1 className="m-4 text-2xl text-center">Sign In</h1>
+          <label>
+            <p className="mb-1 ml-4 text-md">Username</p>
             <input
               onChange={(event) => setUsername(event.currentTarget.value)}
               placeholder="lisa.simpson@springfield.com"
-              className="frosted p-2  mt-1"
+              className="frosted p-2  mt-1 mb-2"
             />
           </label>
-          <label className="mb-1 mt-4 ml-4 text-md">
-            Password
+          <label>
+            <p className="mb-1 ml-4 text-md">Password</p>
             <input
+              type="password"
               placeholder="Do not use 1234"
-              className="frosted p-2  mt-1"
+              className="frosted p-2  mt-1 mb-2"
               onChange={(event) => setPassword(event.currentTarget.value)}
             />
           </label>

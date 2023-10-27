@@ -3,7 +3,7 @@ import RegisterForm from './RegisterForm';
 
 export default function page() {
   return (
-    <div>
+    <div className="h-screen">
       <RegisterForm />
     </div>
   );
