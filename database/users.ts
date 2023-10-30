@@ -5,8 +5,23 @@ import { sql } from './connect';
 export type UserWithPasswordHash = User & {
   passwordHash: string;
 };
-export type UserwithoutEmail = {
+export type UserWithoutEmail = {
   id: number;
+  username: string;
+};
+
+export type UserBlogPost = {
+  postId: number;
+  title: string;
+  post: string;
+  username: string;
+  userId: number;
+};
+
+export type UserBlogPostWithoutUserId = {
+  postId: number;
+  title: string;
+  post: string;
   username: string;
 };
 
@@ -29,7 +44,7 @@ export const createUser = cache(
 );
 
 export const getUserByUsername = cache(async (userName: string) => {
-  const [user] = await sql<UserwithoutEmail[]>`
+  const [user] = await sql<UserWithoutEmail[]>`
     SELECT
       id,
       username
@@ -56,7 +71,7 @@ export const getUserWithPasswordHashByUsername = cache(
 );
 
 export const getUserBySessionToken = cache(async (token: string) => {
-  const [user] = await sql<UserwithoutEmail[]>`
+  const [user] = await sql<UserWithoutEmail[]>`
    SELECT
       users.id,
       users.username
@@ -88,3 +103,78 @@ export const updateUserByUsername = cache(
     return user;
   },
 );
+
+export const getUserBlogPostBySessionToken = cache(async (token: string) => {
+  const notes = await sql<UserBlogPostWithoutUserId[]>`
+   SELECT
+      posts.id AS post_id,
+      posts.title AS title,
+      posts.post AS post,
+      users.username AS username
+    FROM
+      posts
+    INNER JOIN
+      users ON posts.user_id = users.id
+    INNER JOIN
+      sessions ON (
+        sessions.token = ${token} AND
+        sessions.user_id = users.id AND
+        sessions.expiry_timestamp > now()
+      )
+  `;
+  return notes;
+});
+
+export const getUserBlogPosts = cache(async (token: string) => {
+  const notes = await sql<UserBlogPost[]>`
+    SELECT
+      posts.id AS post_id,
+      posts.title AS title,
+      posts.post AS post,
+      users.username AS username,
+      users.id AS user_id
+    FROM
+      posts
+    INNER JOIN
+      users ON posts.user_id = users.id
+    WHERE
+      users.id IN (
+        SELECT user_id
+        FROM sessions
+        WHERE token = ${token}
+      )
+  `;
+  return notes;
+});
+
+export const getAllBlogPosts = cache(async () => {
+  const notes = await sql<UserBlogPostWithoutUserId[]>`
+    SELECT
+      posts.id AS post_id,
+      posts.title AS title,
+      posts.post AS post,
+      users.username AS username
+    FROM
+      posts
+    INNER JOIN
+      users ON posts.user_id = users.id
+  `;
+  return notes;
+});
+
+export const getBlogPostsById = cache(async (id: number) => {
+  const notes = await sql<UserBlogPostWithoutUserId[]>`
+    SELECT
+      posts.id AS post_id,
+      posts.title AS title,
+      posts.post AS post,
+      users.username AS username
+    FROM
+      posts
+    INNER JOIN
+      users ON posts.user_id = users.id
+    WHERE
+      posts.id = ${id}
+  `;
+  return notes;
+});

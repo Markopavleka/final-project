@@ -1,6 +1,6 @@
 import 'server-only';
 import { cache } from 'react';
-import { Post } from '../migrations.test/00006-createTablePost';
+import { Post } from '../migrations/00002-createTablePosts';
 import { sql } from './connect';
 
 export const getPosts = cache(async () => {
@@ -38,34 +38,29 @@ export const getPostById = cache(async (id: number) => {
   return post;
 });
 
-export const deletePostById = cache(async (id: number) => {
+export const deletePostByUserId = cache(async (userId: number) => {
   const [post] = await sql<Post[]>`
     DELETE FROM
       posts
     WHERE
-      id = ${id}
+      user_id = ${userId}
     RETURNING *
   `;
 
   return post;
 });
 
-export const createPost = cache(
-  async (
-    adminUserId: number,
-    imageUrl: string,
-    description: string,
-    createdAt: Date,
-  ) => {
-    const [post] = await sql<Post[]>`
+export const createBlogPost = cache(
+  async (userId: number, title: string, post: string) => {
+    const [posts] = await sql<Post[]>`
       INSERT INTO posts
-      (admin_user_id, image_url, description, created_at)
+      (user_id, title, post)
       VALUES
-        (${adminUserId}, ${imageUrl}, ${description}, ${createdAt})
+        (${userId},${title}, ${post})
       RETURNING *
     `;
 
-    return post;
+    return posts;
   },
 );
 
@@ -81,7 +76,7 @@ export const updatePostById = cache(
       UPDATE
         posts
       SET
-        admin_user_id = ${adminUserId},
+        user_id = ${adminUserId},
         image_url = ${imageUrl},
         description = ${description},
         created_at = ${createdAt}

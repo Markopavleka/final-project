@@ -14,12 +14,11 @@ type News = {
 
 export default async function MyComponent() {
   const data = await getFetchNews();
-  console.log(data);
   return (
     <div className="my-auto flex justify-center items-center flex-col ">
       {data.articles.map((news: News) => (
         <div
-          className="card frosted z-[1] mx-auto my-2 w-1/2 overflow-hidden"
+          className="card frosted z-[1] mx-auto my-8 w-1/2 overflow-hidden"
           key={`data-${news.id}`}
         >
           <Link href={news.url}>

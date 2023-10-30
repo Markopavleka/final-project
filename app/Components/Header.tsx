@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import Link from 'next/link';
+import LogoutButton from '../(auth)/logout/LogoutButton';
 import { getUserBySessionToken } from '../../database/users';
-import LogoutButton from '../api/(auth)/logout/LogoutButton';
 import ThemeSwitch from './action';
 
 export default async function Navbar() {
