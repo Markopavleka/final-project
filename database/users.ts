@@ -146,35 +146,3 @@ export const getUserBlogPosts = cache(async (token: string) => {
   `;
   return notes;
 });
-
-export const getAllBlogPosts = cache(async () => {
-  const notes = await sql<UserBlogPostWithoutUserId[]>`
-    SELECT
-      posts.id AS post_id,
-      posts.title AS title,
-      posts.post AS post,
-      users.username AS username
-    FROM
-      posts
-    INNER JOIN
-      users ON posts.user_id = users.id
-  `;
-  return notes;
-});
-
-export const getBlogPostsById = cache(async (id: number) => {
-  const notes = await sql<UserBlogPostWithoutUserId[]>`
-    SELECT
-      posts.id AS post_id,
-      posts.title AS title,
-      posts.post AS post,
-      users.username AS username
-    FROM
-      posts
-    INNER JOIN
-      users ON posts.user_id = users.id
-    WHERE
-      posts.id = ${id}
-  `;
-  return notes;
-});
