@@ -17,9 +17,9 @@ export default function CreateBlogPostForm({ userId }: { userId: number }) {
         post,
       }),
     });
-    router.refresh();
     setTitle('');
     setPost('');
+    router.refresh();
   }
 
   return (

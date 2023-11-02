@@ -14,6 +14,7 @@ type News = {
 
 export default async function MyComponent() {
   const data = await getFetchNews();
+  console.log(data);
   return (
     <div className="my-auto flex justify-center items-center flex-col ">
       {data.articles.map((news: News) => (
