@@ -1,5 +1,8 @@
 import { UrlObject } from 'node:url';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { getUserBySessionToken } from '../../database/users';
 import { getFetchNews } from './action';
 
 type News = {
@@ -12,7 +15,15 @@ type News = {
   publishedAt: string;
 };
 
-export default async function MyComponent() {
+export default async function NewsPage() {
+  const sessionTokenCookie = cookies().get('sessionToken');
+
+  const user =
+    sessionTokenCookie &&
+    (await getUserBySessionToken(sessionTokenCookie.value));
+
+  if (!user) redirect('/login?returnTo=/');
+
   const data = await getFetchNews();
   console.log(data);
   return (

@@ -61,3 +61,13 @@ export const updateLikeById = cache(
     return like;
   },
 );
+
+export const getNoDuplicateLike = cache(async (postId: number) => {
+  const likes = await sql<Like[]>`
+SELECT DISTINCT user_id, post_id
+FROM likes
+WHERE post_id = ${postId}
+ORDER BY user_id, post_id
+  `;
+  return likes;
+});

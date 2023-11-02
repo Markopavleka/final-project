@@ -5,6 +5,8 @@ import React from 'react';
 import { getAllBlogPosts } from '../../database/posts';
 import { getUserBlogPosts, getUserBySessionToken } from '../../database/users';
 import CreateBlogPostForm from './createBlogPostForm';
+import HandleLike from './handleLike';
+import ShowLike from './showLike';
 
 export default async function Community() {
   const sessionTokenCookie = cookies().get('sessionToken');
@@ -20,7 +22,6 @@ export default async function Community() {
 
   const allBlogPosts = await getAllBlogPosts();
 
-  console.log('Checking: ', allBlogPosts);
   return (
     <div>
       <CreateBlogPostForm userId={user.id} />
@@ -44,12 +45,22 @@ export default async function Community() {
                 <p className="card frosted my-4 mx-4 text-md p-4">
                   {blogPost.post}
                 </p>
-                <Link
-                  className="m-8 hover:underline"
-                  href={`/community/${blogPost.postId}`}
-                >
-                  Comment
-                </Link>
+                <div className="flex flex-row">
+                  <div>
+                    <Link
+                      className="m-8 hover:underline"
+                      href={`/community/${blogPost.postId}`}
+                    >
+                      Comment
+                    </Link>
+                  </div>
+                  <div>
+                    <ShowLike postId={blogPost.postId} />
+                  </div>
+                  <div className="mr-2">
+                    <HandleLike userId={user.id} postId={blogPost.postId} />
+                  </div>
+                </div>
               </div>
             </div>
           ))}

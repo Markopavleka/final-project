@@ -7,6 +7,8 @@ import {
   getUserBySessionToken,
   UserBlogPostWithoutUserId,
 } from '../../../database/users';
+import HandleLike from '../handleLike';
+import ShowLike from '../showLike';
 import CommentForm from './commentForm';
 import DisplayComments from './displayComments';
 
@@ -51,6 +53,17 @@ export default async function BlogPostPage(props: Props) {
               <p className="card frosted my-4 mx-4 text-md p-4">
                 {singleBlogPost[0].post}
               </p>
+              <div className="flex flex-row">
+                <div className="ml-8">
+                  <ShowLike postId={singleBlogPost[0].postId} />
+                </div>
+                <div className="mr-2">
+                  <HandleLike
+                    userId={user.id}
+                    postId={singleBlogPost[0].postId}
+                  />
+                </div>
+              </div>
               <div className="divider " />
               <div className="divider " />
 

@@ -15,6 +15,7 @@ export default async function DisplayComments() {
             <p className="card frosted mb-8 mx-4 text-md p-4">
               {comment.comment}
             </p>
+            <div className="divider " />
           </div>
         </div>
       ))}

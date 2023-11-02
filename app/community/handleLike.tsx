@@ -1,14 +1,14 @@
+'use client';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+
+// import { useState } from 'react';
 
 type LikeFormProps = {
   userId: number;
   postId: number;
 };
 
-export default function handleLike({ userId, postId }: LikeFormProps) {
-  const [like, setlike] = useState();
-
+export default function HandleLike({ userId, postId }: LikeFormProps) {
   const router = useRouter();
 
   async function handleCreateLike() {
@@ -29,7 +29,7 @@ export default function handleLike({ userId, postId }: LikeFormProps) {
           await handleCreateLike();
         }}
       >
-        <button>Like</button>
+        <button className="ml-2">Like</button>
       </form>
     </div>
   );
