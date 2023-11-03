@@ -6,13 +6,15 @@ import { getUserBySessionToken } from '../../database/users';
 import { getFetchNews } from './action';
 
 type News = {
-  id: string;
-  title: string;
+  source: { id: string; name: string };
   author: string;
+  title: string;
   urlToImage: string;
   url: UrlObject;
   description: string;
   publishedAt: string;
+  content: string;
+  id: number;
 };
 
 export default async function NewsPage() {
@@ -25,10 +27,13 @@ export default async function NewsPage() {
   if (!user) redirect('/login?returnTo=/');
 
   const data = await getFetchNews();
-  console.log(data);
+  const dataWithId = data.articles.map((item: News, index: number) => ({
+    ...item,
+    id: index + 1,
+  }));
   return (
     <div className="my-auto flex justify-center items-center flex-col ">
-      {data.articles.map((news: News) => (
+      {dataWithId.map((news: News) => (
         <div
           className="card frosted z-[1] mx-auto my-8 w-1/2 overflow-hidden"
           key={`data-${news.id}`}
@@ -46,6 +51,9 @@ export default async function NewsPage() {
           <div className="m-0 p-2">
             <p>{news.description}</p>
             <p>{news.publishedAt}</p>
+            <Link className="m-8 hover:underline" href={`/news/${news.id}`}>
+              Comment
+            </Link>
           </div>
         </div>
       ))}

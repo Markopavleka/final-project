@@ -1,10 +1,13 @@
 import React from 'react';
-import { getUserComments } from '../../../database/comment';
+import { getUserCommentsByPostId } from '../../../database/comment';
 
-export default async function DisplayComments() {
-  const allComments = await getUserComments();
+type Props = {
+  postId: number;
+};
 
-  console.log(allComments);
+export default async function DisplayComments(props: Props) {
+  console.log('check props comment', props);
+  const allComments = await getUserCommentsByPostId(props.postId);
 
   return (
     <div>

@@ -62,8 +62,13 @@ export const updateLikeById = cache(
   },
 );
 
+type LikesWithoutId = {
+  userId: number;
+  postId: number;
+};
+
 export const getNoDuplicateLike = cache(async (postId: number) => {
-  const likes = await sql<Like[]>`
+  const likes = await sql<LikesWithoutId[]>`
 SELECT DISTINCT user_id, post_id
 FROM likes
 WHERE post_id = ${postId}

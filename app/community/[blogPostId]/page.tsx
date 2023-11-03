@@ -27,8 +27,6 @@ export default async function BlogPostPage(props: Props) {
 
   if (!user) redirect('/login?returnTo=/');
 
-  console.log(user);
-
   const singleBlogPost: postgres.RowList<UserBlogPostWithoutUserId[]> =
     await getBlogPostsById(props.params.blogPostId);
   /*   console.log('checking singleBlogPost: ', singleBlogPost[0]);
@@ -68,7 +66,7 @@ export default async function BlogPostPage(props: Props) {
               <div className="divider " />
 
               <h3 className="mb-1 ml-8 text-md">Comments:</h3>
-              <DisplayComments />
+              <DisplayComments postId={singleBlogPost[0].postId} />
             </div>
           </div>
           <CommentForm userId={user.id} postId={singleBlogPost[0].postId} />
