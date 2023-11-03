@@ -6,6 +6,7 @@ import { getAllBlogPosts } from '../../database/posts';
 import { getUserBlogPosts, getUserBySessionToken } from '../../database/users';
 import CreateBlogPostForm from './createBlogPostForm';
 import HandleLike from './handleLike';
+import ShowCommentsCount from './showCommentsCount';
 import ShowLike from './showLike';
 
 export default async function Community() {
@@ -46,9 +47,13 @@ export default async function Community() {
                   {blogPost.post}
                 </p>
                 <div className="flex flex-row">
+                  <div className="ml-8 mr-2">
+                    <ShowCommentsCount postId={blogPost.postId} />
+                  </div>
+
                   <div>
                     <Link
-                      className="m-8 hover:underline"
+                      className="mr-4 hover:underline"
                       href={`/community/${blogPost.postId}`}
                     >
                       Comment

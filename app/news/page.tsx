@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getUserBySessionToken } from '../../database/users';
 import { getFetchNews } from './action';
+import HandleLike from './handleLikeNews';
+import ShowLike from './showLike';
 
 type News = {
   source: { id: string; name: string };
@@ -51,6 +53,8 @@ export default async function NewsPage() {
           <div className="m-0 p-2">
             <p>{news.description}</p>
             <p>{news.publishedAt}</p>
+            <ShowLike postId={news.id} />
+            <HandleLike userId={user.id} postId={news.id} />
             <Link className="m-8 hover:underline" href={`/news/${news.id}`}>
               Comment
             </Link>
