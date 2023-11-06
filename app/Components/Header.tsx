@@ -33,6 +33,11 @@ export default async function Navbar() {
             </button>
             <ul className="menu menu-lg frosted dropdown-content mt-3 z-[999] p-2 rounded-box w-52">
               <li>
+                <Link className="hover:underline" href="/profile" tabIndex={0}>
+                  Profile
+                </Link>
+              </li>
+              <li>
                 <Link className="hover:underline" href="/news" tabIndex={0}>
                   News
                 </Link>
@@ -44,11 +49,6 @@ export default async function Navbar() {
                   tabIndex={0}
                 >
                   Community
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:underline" href="/" tabIndex={0}>
-                  Messages
                 </Link>
               </li>
             </ul>

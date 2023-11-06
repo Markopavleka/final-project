@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { getUserBySessionToken } from '../../database/users';
 import { getFetchNews } from './action';
 import HandleLike from './handleLikeNews';
+import ShowCommentsNewsCount from './showCommentsNewsCount';
 import ShowLike from './showLike';
 
 type News = {
@@ -37,7 +38,7 @@ export default async function NewsPage() {
     <div className="my-auto flex justify-center items-center flex-col ">
       {dataWithId.map((news: News) => (
         <div
-          className="card frosted z-[1] mx-auto my-8 w-1/2 overflow-hidden"
+          className="card frosted z-[1] mx-auto my-8 w-1/2  overflow-hidden"
           key={`data-${news.id}`}
         >
           <Link href={news.url}>
@@ -53,11 +54,21 @@ export default async function NewsPage() {
           <div className="m-0 p-2">
             <p>{news.description}</p>
             <p>{news.publishedAt}</p>
-            <ShowLike postId={news.id} />
-            <HandleLike userId={user.id} postId={news.id} />
-            <Link className="m-8 hover:underline" href={`/news/${news.id}`}>
+          </div>
+          <div className="flex flex-row">
+            <div className="ml-8 mr-2">
+              <ShowCommentsNewsCount newsId={news.id} />
+            </div>
+            <Link className="mr-4 hover:underline" href={`/news/${news.id}`}>
               Comment
             </Link>
+
+            <div>
+              <ShowLike postId={news.id} />
+            </div>
+            <div className="mr-2">
+              <HandleLike userId={user.id} newsId={news.id} />
+            </div>
           </div>
         </div>
       ))}

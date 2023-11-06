@@ -1,12 +1,11 @@
-/* import React from 'react';
-import { getUserCommentsByPostId } from '../../database/comment';
+import React from 'react';
+import { getUserNewsCommentsByNewsId } from '../../database/commentsNews';
 
 type Props = {
   newsId: number;
 };
 export default async function ShowCommentsNewsCount(props: Props) {
-  const getComments = await getUserCommentsByPostId(props.newsId);
-  console.log(props.newsId);
+  const getComments = await getUserNewsCommentsByNewsId(props.newsId);
 
   const countComments = getComments.length;
 
@@ -16,4 +15,3 @@ export default async function ShowCommentsNewsCount(props: Props) {
     </div>
   );
 }
- */

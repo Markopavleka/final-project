@@ -5,8 +5,6 @@ type Props = {
   newsId: number;
 };
 export default async function DisplayComments(props: Props) {
-  console.log('check props', props.newsId);
-
   const allNewsComments = await getUserNewsCommentsByNewsId(props.newsId);
   return (
     <div>

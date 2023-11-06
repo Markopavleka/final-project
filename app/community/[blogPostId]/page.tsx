@@ -29,10 +29,6 @@ export default async function BlogPostPage(props: Props) {
 
   const singleBlogPost: postgres.RowList<UserBlogPostWithoutUserId[]> =
     await getBlogPostsById(props.params.blogPostId);
-  /*   console.log('checking singleBlogPost: ', singleBlogPost[0]);
-  console.log('checking props: ', props.params.blogPostId);
-
-  console.log('checking Api', await getBlogPostsById(29)); */
 
   if (singleBlogPost[0]) {
     return (

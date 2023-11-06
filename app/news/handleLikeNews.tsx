@@ -5,18 +5,18 @@ import { useRouter } from 'next/navigation';
 
 type LikeFormProps = {
   userId: number;
-  postId: number;
+  newsId: number;
 };
 
-export default function HandleLike({ userId, postId }: LikeFormProps) {
+export default function HandleLike({ userId, newsId }: LikeFormProps) {
   const router = useRouter();
 
   async function handleCreateLike() {
-    await fetch('/api/likesnews', {
+    await fetch('/api/likenews', {
       method: 'POST',
       body: JSON.stringify({
         userId,
-        postId,
+        newsId,
       }),
     });
     router.refresh();

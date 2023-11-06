@@ -39,8 +39,6 @@ const testUsers: User[] = [
   },
 ];
 
-console.log(testUsers);
-
 export async function up(sql: Sql) {
   for (const testUser of testUsers) {
     await sql`

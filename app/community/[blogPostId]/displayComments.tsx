@@ -6,7 +6,6 @@ type Props = {
 };
 
 export default async function DisplayComments(props: Props) {
-  console.log('check props comment', props);
   const allComments = await getUserCommentsByPostId(props.postId);
 
   return (

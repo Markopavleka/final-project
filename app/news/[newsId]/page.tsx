@@ -50,7 +50,6 @@ export default async function page(props: Props) {
     return -1;
   }
 
-  // console.log('check props', props);
   const index = findIndex();
 
   return (

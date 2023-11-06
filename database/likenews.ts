@@ -1,12 +1,11 @@
 import 'server-only';
 import { cache } from 'react';
-import { Like } from '../migrations/00004-createTableLikes';
 import { LikeNews } from '../migrations/00006-createTableLikesNews';
 import { sql } from './connect';
 
 export const getLike = cache(async () => {
-  const likes = await sql<Like[]>`
-    SELECT * FROM likes
+  const likes = await sql<LikeNews[]>`
+    SELECT * FROM likesnews
   `;
   return likes;
 });
