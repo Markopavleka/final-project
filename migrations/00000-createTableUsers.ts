@@ -4,6 +4,9 @@ export type User = {
   id: number;
   username: string;
   email: string;
+  profilePicture: string;
+  backgroundPicture: string;
+  bio: string;
 };
 
 export async function up(sql: Sql) {
@@ -12,7 +15,10 @@ export async function up(sql: Sql) {
       id serial PRIMARY KEY,
       username varchar(80) NOT NULL UNIQUE,
       email varchar(80) NOT NULL UNIQUE,
-      password_hash varchar(80) NOT NULL
+      password_hash varchar(80) NOT NULL,
+      profile_picture varchar(250),
+      background_picture varchar(250),
+      bio text
     );
   `;
 }

@@ -146,3 +146,30 @@ export const getUserBlogPosts = cache(async (token: string) => {
   `;
   return notes;
 });
+
+type UpdatedUser = {
+  userId: number;
+  profilePicture: string | null | undefined;
+  backgroundPicture: string | null | undefined;
+  bio: string | null | undefined;
+};
+
+export const updateUserProfil = cache(
+  async (
+    userId: number,
+    profilePicture: string | null | undefined,
+    backgroundPicture: string | null | undefined,
+    bio: string | null | undefined,
+  ) => {
+    const [user] = await sql<UpdatedUser[]>`
+    UPDATE users
+    SET
+    profile_picture =${profilePicture},
+    background_picture=${backgroundPicture},
+    bio=${bio}
+    WHERE
+      id = ${userId}
+  `;
+    return user;
+  },
+);

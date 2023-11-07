@@ -32,7 +32,7 @@ export default function SignInForm(props: Props) {
       return;
     }
 
-    router.push(getSafeReturnToPath(props.returnTo) || `/news`);
+    router.push(getSafeReturnToPath(props.returnTo) || `/profilepicture`);
 
     router.refresh();
   }
