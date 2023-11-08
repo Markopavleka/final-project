@@ -4,9 +4,9 @@ export type User = {
   id: number;
   username: string;
   email: string;
-  profilePicture: string;
-  backgroundPicture: string;
-  bio: string;
+  profilePicture: string | undefined;
+  backgroundPicture: string | undefined;
+  bio: string | undefined;
 };
 
 export async function up(sql: Sql) {

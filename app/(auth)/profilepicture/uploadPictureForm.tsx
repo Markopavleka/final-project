@@ -1,12 +1,12 @@
 'use client';
-import { useState } from 'react';
-import DatabaseHandler from './action';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 export default function UploadPictureForm(props: { userId: number }) {
-  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
-  const [uploadData, setUploadData] = useState<string | undefined>(undefined);
+  const router = useRouter();
+  const userId = Number(props.userId);
 
-  console.log('checking props ', props);
+  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
 
   function handleOnChange(changeEvent: React.ChangeEvent<HTMLInputElement>) {
     const reader = new FileReader();
@@ -14,13 +14,11 @@ export default function UploadPictureForm(props: { userId: number }) {
     reader.onload = function (onLoadEvent: ProgressEvent<FileReader>) {
       if (onLoadEvent.target) {
         setImageSrc(onLoadEvent.target.result as string);
-        setUploadData(undefined);
       }
     };
 
     if (changeEvent.target.files && changeEvent.target.files[0]) {
       reader.readAsDataURL(changeEvent.target.files[0]);
-      console.log(changeEvent.target.files[0]);
     }
   }
 
@@ -51,7 +49,19 @@ export default function UploadPictureForm(props: { userId: number }) {
         if (response.ok) {
           const data = await response.json();
           setImageSrc(data.secure_url);
-          setUploadData(data);
+
+          const profilePicture = data.secure_url;
+
+          if (profilePicture !== undefined) {
+            await fetch('/api/profilepicture', {
+              method: 'POST',
+              body: JSON.stringify({
+                userId,
+                profilePicture,
+              }),
+            });
+            router.refresh();
+          }
         } else {
           console.error('Failed to upload the file.');
         }
@@ -66,42 +76,28 @@ export default function UploadPictureForm(props: { userId: number }) {
   return (
     <div>
       <form
-        method="post"
         onSubmit={handleOnSubmit}
         className="grid justify-center align-center justify-items-center"
       >
-        <p className="mb-1 ml-4 text-md">Profile Picture</p>
+        <p className="mb-1 ml-4 text-md my-2">Profile Picture</p>
+
+        <div className="avatar rounded-full w-52 h-52 bg-[#545454b2]">
+          <img className="rounded-full border-2 my-2" src={imageSrc} alt="" />
+        </div>
 
         <div className="m-4">
           <input
-            className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+            className="file-input file-input-bordered file-input-primary w-full max-w-xs my-2"
             type="file"
             name="file"
             onChange={handleOnChange}
           />
         </div>
 
-        <div className="avatar rounded-full w-52 h-52 bg-[#545454b2]">
-          <img className="rounded-full" src={imageSrc} alt="" />
+        <div>
+          <button className="btn btn-primary m-4 ">Set Picture</button>
         </div>
-        {!uploadData ? (
-          <div>
-            <button className="btn btn-primary m-4">Set Picture</button>
-          </div>
-        ) : (
-          <div>
-            <button className="btn btn-disable m-4" disabled>
-              Set Picture
-            </button>
-          </div>
-        )}
       </form>
-      {uploadData ? (
-        <DatabaseHandler userId={props.userId} profilePicture={imageSrc} />
-      ) : (
-        // Show an error message when uploadData is not successful
-        <div>{uploadData}</div>
-      )}
     </div>
   );
 }

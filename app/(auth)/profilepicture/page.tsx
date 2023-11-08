@@ -2,7 +2,9 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import { getUserBySessionToken } from '../../../database/users';
-import Upload from './uploadPictureForm1';
+import UploadPictureForm from './uploadPictureForm';
+
+// import Upload from './uploadPictureForm1';
 
 export default async function AccountSetup() {
   const sessionTokenCookie = cookies().get('sessionToken');
@@ -11,7 +13,7 @@ export default async function AccountSetup() {
     sessionTokenCookie &&
     (await getUserBySessionToken(sessionTokenCookie.value));
 
-  if (!user) redirect('/login?returnTo=/');
+  if (!user) redirect('/login?returnTo=/app');
   return (
     <div className="h-screen">
       <div className="flex justify-center ">
@@ -19,8 +21,8 @@ export default async function AccountSetup() {
           <form action="/" className="grid">
             <h1 className="m-4 text-lg text-center">Create your profile</h1>
           </form>
-          <Upload userId={user.id} />
-          <ul className="steps">
+          <UploadPictureForm userId={user.id} />
+          <ul className="steps my-4">
             <li className="step step-primary">Register</li>
             <li className="step step-primary">Profile Picture</li>
             <li className="step">Ready</li>

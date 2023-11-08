@@ -1,9 +1,14 @@
 import { cache } from 'react';
-import { User } from '../migrations/00000-createTableUsers';
 import { sql } from './connect';
 
-export type UserWithPasswordHash = User & {
+export type UserWithPasswordHash = {
+  id: number;
+  username: string;
+  email: string;
   passwordHash: string;
+  profilePicture: string | null;
+  backgroundPicture: string | null;
+  bio: string | null;
 };
 export type UserWithoutEmail = {
   id: number;
@@ -24,10 +29,15 @@ export type UserBlogPostWithoutUserId = {
   post: string;
   username: string;
 };
+export type UserNameEmail = {
+  id: number;
+  username: string;
+  email: string;
+};
 
 export const createUser = cache(
   async (username: string, email: string, passwordHash: string) => {
-    const [user] = await sql<User[]>`
+    const [user] = await sql<UserNameEmail[]>`
     INSERT INTO users
       (username, email, password_hash)
     VALUES
@@ -87,7 +97,7 @@ export const getUserBySessionToken = cache(async (token: string) => {
   return user;
 });
 
-export const updateUserByUsername = cache(
+/* export const updateUserByUsername = cache(
   async (id: number, username: string, email: string, passwordHash: string) => {
     const [user] = await sql<UserWithPasswordHash[]>`
       UPDATE
@@ -102,7 +112,7 @@ export const updateUserByUsername = cache(
     `;
     return user;
   },
-);
+); */
 
 export const getUserBlogPostBySessionToken = cache(async (token: string) => {
   const notes = await sql<UserBlogPostWithoutUserId[]>`
@@ -147,29 +157,40 @@ export const getUserBlogPosts = cache(async (token: string) => {
   return notes;
 });
 
-type UpdatedUser = {
-  userId: number;
-  profilePicture: string | null | undefined;
-  backgroundPicture: string | null | undefined;
-  bio: string | null | undefined;
+export type UserProfilePicture = {
+  id: number;
+  username: string;
+  email: string;
+  passwordHash: string;
+  profilePicture: string | null;
+  backgroundPicture: string | null;
+  bio: string | null;
 };
 
-export const updateUserProfil = cache(
-  async (
-    userId: number,
-    profilePicture: string | null | undefined,
-    backgroundPicture: string | null | undefined,
-    bio: string | null | undefined,
-  ) => {
-    const [user] = await sql<UpdatedUser[]>`
-    UPDATE users
+export const updateUserProfilePicture = cache(
+  async (userId: number, profilePicture: string) => {
+    const [user] = await sql<UserProfilePicture[]>`
+ UPDATE users
     SET
-    profile_picture =${profilePicture},
-    background_picture=${backgroundPicture},
-    bio=${bio}
+    profile_picture =${profilePicture}
     WHERE
       id = ${userId}
-  `;
+      RETURNING *
+    `;
+    return user;
+  },
+);
+
+export const updateUserBackgroundPicture = cache(
+  async (userId: number, backgroundPicture: string) => {
+    const [user] = await sql<UserProfilePicture[]>`
+ UPDATE users
+    SET
+    background_picture =${backgroundPicture}
+    WHERE
+      id = ${userId}
+      RETURNING *
+    `;
     return user;
   },
 );
