@@ -13,6 +13,9 @@ export type UserWithPasswordHash = {
 export type UserWithoutEmail = {
   id: number;
   username: string;
+  profilePicture: string;
+  backgroundPicture: string;
+  bio: string;
 };
 
 export type UserBlogPost = {
@@ -84,7 +87,10 @@ export const getUserBySessionToken = cache(async (token: string) => {
   const [user] = await sql<UserWithoutEmail[]>`
    SELECT
       users.id,
-      users.username
+      users.username,
+      users.profile_picture,
+      users.background_picture,
+      users.bio
     FROM
       users
     INNER JOIN
@@ -194,3 +200,15 @@ export const updateUserBackgroundPicture = cache(
     return user;
   },
 );
+
+export const updateUserBio = cache(async (userId: number, bio: string) => {
+  const [user] = await sql<UserProfilePicture[]>`
+ UPDATE users
+    SET
+    bio =${bio}
+    WHERE
+      id = ${userId}
+      RETURNING *
+    `;
+  return user;
+});

@@ -1,15 +1,12 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { getValidSessionByToken } from '../../../database/sessions';
-import {
-  updateUserProfilePicture,
-  UserProfilePicture,
-} from '../../../database/users';
+import { getValidSessionByToken } from '../../../../database/sessions';
+import { updateUserBio, UserProfilePicture } from '../../../../database/users';
 
 const updateUserSchema = z.object({
   userId: z.number(),
-  profilePicture: z.string(),
+  bio: z.string(),
 });
 
 export type PictureResponseBodyPost =
@@ -54,11 +51,10 @@ export async function POST(
       { status: 401 },
     );
   }
-  console.log(typeof result.data.userId);
-  console.log(typeof result.data.profilePicture);
-  const newUpdatedUser = await updateUserProfilePicture(
+
+  const newUpdatedUser = await updateUserBio(
     result.data.userId,
-    result.data.profilePicture,
+    result.data.bio,
   );
   console.log(newUpdatedUser);
   if (!newUpdatedUser) {

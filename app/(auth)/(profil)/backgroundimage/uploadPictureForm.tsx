@@ -2,7 +2,11 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-export default function UploadPictureForm(props: { userId: number }) {
+export default function UploadPictureForm(props: {
+  username: string;
+  profilePicture: string;
+  userId: number;
+}) {
   const router = useRouter();
   const userId = Number(props.userId);
 
@@ -50,17 +54,18 @@ export default function UploadPictureForm(props: { userId: number }) {
           const data = await response.json();
           setImageSrc(data.secure_url);
 
-          const profilePicture = data.secure_url;
+          const backgroundPicture = data.secure_url;
 
-          if (profilePicture !== undefined) {
-            await fetch('/api/profilepicture', {
+          if (backgroundPicture !== undefined) {
+            await fetch('/api/backgroundimage', {
               method: 'POST',
               body: JSON.stringify({
                 userId,
-                profilePicture,
+                backgroundPicture,
               }),
             });
             router.refresh();
+            router.push('/bio');
           }
         } else {
           console.error('Failed to upload the file.');
@@ -75,17 +80,32 @@ export default function UploadPictureForm(props: { userId: number }) {
 
   return (
     <div>
+      <p className=" ml-4 text-md text-center">Background Picture</p>
+      <p className=" ml-4 text-md ">Profile Preview:</p>
+      <div className="card frosted h-96">
+        <div className="card frosted w-full h-64 bg-[#545454b2]">
+          <img
+            src={imageSrc}
+            alt=""
+            className="w-full h-72 rounded-xl overflow-hidden"
+          />
+        </div>
+        <div className="avatar rounded-full w-52 h-52 bg-[#545454b2] absolute bottom-4 left-16">
+          <img
+            className="avatar rounded-full w-52 h-52 "
+            src={props.profilePicture}
+            alt=""
+          />
+        </div>
+        <p className=" ml-4 text-md text-center mt-2">
+          {props.username.toUpperCase()}
+        </p>
+      </div>
       <form
         onSubmit={handleOnSubmit}
         className="grid justify-center align-center justify-items-center"
       >
-        <p className="mb-1 ml-4 text-md my-2">Profile Picture</p>
-
-        <div className="avatar rounded-full w-52 h-52 bg-[#545454b2]">
-          <img className="rounded-full border-2 my-2" src={imageSrc} alt="" />
-        </div>
-
-        <div className="m-4">
+        <div className="m-8">
           <input
             className="file-input file-input-bordered file-input-primary w-full max-w-xs my-2"
             type="file"

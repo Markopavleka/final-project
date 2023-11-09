@@ -4,7 +4,7 @@ export type User = {
   id: number;
   username: string;
   email: string;
-  profilePicture: string | undefined;
+  profilePicture: string;
   backgroundPicture: string | undefined;
   bio: string | undefined;
 };
