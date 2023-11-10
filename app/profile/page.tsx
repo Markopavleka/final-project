@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import React from 'react';
-import { getUserBySessionToken } from '../../database/users';
+import { getUserBlogPosts, getUserBySessionToken } from '../../database/users';
 
 export default async function page() {
   const sessionTokenCookie = cookies().get('sessionToken');
@@ -11,10 +11,14 @@ export default async function page() {
     (await getUserBySessionToken(sessionTokenCookie.value));
 
   if (!user) redirect('/login?returnTo=/app');
+
+  const userBlogPosts = await getUserBlogPosts(sessionTokenCookie.value);
+
+  console.log(userBlogPosts);
   return (
     <div className="h-screen">
-      <div className="flex justify-center ">
-        <div className="card frosted w-1/2">
+      <div className="flex justify-center flex-col ">
+        <div className="card frosted w-1/2 mx-auto my-8">
           <div className="card frosted w-full h-64 bg-[#545454b2]">
             <img
               src={user.backgroundPicture}
@@ -37,6 +41,24 @@ export default async function page() {
             <p className="text-center">{user.bio}</p>
           </div>
         </div>
+        <h1 className="text-2xl">Your blog entries:</h1>
+        {userBlogPosts.toReversed().map((blogPost) => (
+          <div
+            className="card frosted w-1/2 mx-auto"
+            key={`blogPost-div-${blogPost.postId}`}
+          >
+            <div>
+              <h3 className="mb-1 ml-8 text-md">Title:</h3>
+              <p className="card frosted mb-1 mx-4 text-md p-4">
+                {blogPost.title}
+              </p>
+              <h3 className="mb-1 ml-8 text-md ">Description:</h3>
+              <p className="card frosted my-4 mx-4 text-md p-4">
+                {blogPost.post}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

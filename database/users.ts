@@ -148,7 +148,8 @@ export const getUserBlogPosts = cache(async (token: string) => {
       posts.title AS title,
       posts.post AS post,
       users.username AS username,
-      users.id AS user_id
+      users.id AS user_id,
+      users.profile_picture as profile_picture
     FROM
       posts
     INNER JOIN
