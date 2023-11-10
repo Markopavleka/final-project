@@ -10,7 +10,7 @@ export default function LogoutButton() {
 
   return (
     <form onSubmit={handleLogout}>
-      <button className="hover:underline mr-2 text-xl">Logout</button>
+      <button className="hover:text-accent text-accent">Logout</button>
     </form>
   );
 }

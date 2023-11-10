@@ -35,18 +35,15 @@ export default async function NewsPage() {
     id: index + 1,
   }));
   return (
-    <div className="my-auto flex justify-center items-center flex-col ">
+    <div className="grid grid-cols-3 gap-16 mx-32 mt-16">
       {dataWithId.map((news: News) => (
-        <div
-          className="card frosted z-[1] mx-auto my-8 w-1/2  overflow-hidden"
-          key={`data-${news.id}`}
-        >
+        <div className="card frosted overflow-hidden" key={`data-${news.id}`}>
           <Link href={news.url}>
             <figure>
               <img src={news.urlToImage} alt="" />
             </figure>
             <div className="frosted rounded-none m-0 p-2">
-              <h1 className="text-xl hover:underline">{news.title}</h1>
+              <h1 className="text-lg hover:underline">{news.title}</h1>
               <h2 className="text-sm ">{news.author}</h2>
             </div>
           </Link>
@@ -62,7 +59,6 @@ export default async function NewsPage() {
             <Link className="mr-4 hover:underline" href={`/news/${news.id}`}>
               Comment
             </Link>
-
             <div>
               <ShowLike postId={news.id} />
             </div>

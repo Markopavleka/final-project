@@ -46,11 +46,11 @@ export default function CreateBlogPostForm({ userId }: { userId: number }) {
           </label>
           <label>
             <p className="mb-1 ml-4 text-md">Text:</p>
-            <input
+            <textarea
               onChange={(event) => {
                 setPost(event.currentTarget.value);
               }}
-              className="frosted p-2 mt-1 mb-2 w-full h-40"
+              className="frosted resize-none  p-2 mt-1 mb-2 w-full h-40"
               placeholder="Provide some more information"
               required
             />

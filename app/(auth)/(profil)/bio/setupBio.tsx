@@ -55,11 +55,11 @@ export default function CreateBio(props: {
           className="grid justify-center"
         >
           <label>
-            <input
+            <textarea
               onChange={(event) => {
                 setBio(event.currentTarget.value);
               }}
-              className="frosted p-2 my-1 h-20 w-[230%]"
+              className="frosted textarea resize-none p-2 my-1 h-20 w-[230%]"
               placeholder="Say something about you"
               required
             />

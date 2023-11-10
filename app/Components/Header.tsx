@@ -2,7 +2,6 @@ import { cookies } from 'next/headers';
 import Link from 'next/link';
 import LogoutButton from '../(auth)/logout/LogoutButton';
 import { getUserBySessionToken } from '../../database/users';
-import ThemeSwitch from './action';
 
 export default async function Navbar() {
   const cookieStore = cookies();
@@ -11,79 +10,91 @@ export default async function Navbar() {
     sessionToken && (await getUserBySessionToken(sessionToken.value));
 
   return (
-    <header className="mx-10 z-[9999]">
-      <div className="navbar frosted  mb-10 mt-5">
+    <header className="mb-8">
+      <div className="navbar frosted rounded-t-[0]">
         <div className="navbar-start">
-          <div className="dropdown ml-2">
-            <button tabIndex={0} className="btn btn-ghost btn-circle">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h7"
-                />
-              </svg>
-            </button>
-            <ul className="menu menu-lg frosted dropdown-content mt-3 z-[999] p-2 rounded-box w-52">
-              <li>
-                <Link className="hover:underline" href="/profile" tabIndex={0}>
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:underline" href="/news" tabIndex={0}>
-                  News
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:underline"
-                  href="/community"
-                  tabIndex={0}
-                >
-                  Community
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="navbar-center">
-          <Link href="/" tabIndex={0} className="normal-case text-xl">
-            TechNewZ
-          </Link>
-        </div>
-        <div className="navbar-end mr-2">
           {user ? (
-            <LogoutButton />
+            <Link
+              href="/profile"
+              tabIndex={0}
+              className="normal-case text-2xl ml-4"
+            >
+              TechNewZ
+            </Link>
           ) : (
-            <div className="flex-row mx-2">
-              <Link
-                href="/signin"
-                tabIndex={0}
-                className=" hover:underline mr-2 text-xl"
-              >
-                Sign In
-              </Link>
-              |
-              <Link
-                href="/register"
-                tabIndex={0}
-                className="hover:underline ml-2 text-xl"
-              >
-                Sign Up
-              </Link>
-            </div>
+            <h1 className="normal-case text-2xl ml-4">TechNewZ</h1>
           )}
         </div>
 
-        <ThemeSwitch />
+        {user ? (
+          <>
+            <div className="navbar-center ">
+              <ul className="menu menu-horizontal px-1">
+                <li>
+                  <Link
+                    className="hover:underline hover:text-accent text-lg"
+                    href="/profile"
+                    tabIndex={0}
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="hover:underline hover:text-accent text-lg"
+                    href="/news"
+                    tabIndex={0}
+                  >
+                    News
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="hover:underline hover:text-accent text-lg"
+                    href="/community"
+                    tabIndex={0}
+                  >
+                    Community
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="navbar-end">
+              <div className="dropdown dropdown-end">
+                <button
+                  tabIndex={0}
+                  className="btn btn-ghost btn-circle avatar frosted rounded-full hover:scale-110 mr-4"
+                >
+                  <div className="w-16 rounded-full ">
+                    <img alt="Profile" src={user.profilePicture} />
+                  </div>
+                </button>
+                <ul className="menu menu-lg frosted dropdown-content mt-3 z-[999] p-2 rounded-box w-52 hover:text-accent">
+                  <li>
+                    <a className="hover:text-accent">Settings</a>
+                  </li>
+                  <li>
+                    <LogoutButton />
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="navbar-end ml-2">
+            <div className="hover:scale-110 hover:animate-bounce">
+              <Link href="/signin" tabIndex={0} className="mr-2 text-xl ">
+                Sign In
+              </Link>
+            </div>
+            |
+            <div className="hover:scale-110 hover:animate-bounce">
+              <Link href="/register" tabIndex={0} className=" ml-2 text-xl">
+                Sign Up
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );

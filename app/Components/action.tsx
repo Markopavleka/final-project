@@ -10,9 +10,9 @@ export default function ThemeSwitch() {
   // update state on toggle
   const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setTheme('myThemeDark');
+      setTheme('dark');
     } else {
-      setTheme('myThemeLight');
+      setTheme('light');
     }
   };
 
@@ -27,7 +27,11 @@ export default function ThemeSwitch() {
   return (
     <div>
       {' '}
-      <input onChange={handleToggle} type="checkbox" className="toggle mr-2" />
+      <input
+        onChange={handleToggle}
+        type="checkbox"
+        className="toggle mr-2 fixed bottom-5 left-5 right-0"
+      />
     </div>
   );
 }

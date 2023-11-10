@@ -11,10 +11,10 @@ module.exports = {
   daisyui: {
     themes: [
       {
-        myThemeDark: {
+        dark: {
           primary: '#AB48AB',
           secondary: '#EFF0FD',
-          accent: '#7B81AF',
+          accent: '#F5F5F5',
           neutral: '#3d4451',
           'base-100': '#ffffff',
           'background-image':
@@ -25,10 +25,10 @@ module.exports = {
         },
       },
       {
-        myThemeLight: {
+        light: {
           primary: '#00C9B7',
           secondary: '#E1EEEA',
-          accent: '#7B81AF',
+          accent: '#545454',
           neutral: '#488A7B',
           'base-100': '#ffffff',
           'background-image':
