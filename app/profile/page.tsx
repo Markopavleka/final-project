@@ -18,7 +18,7 @@ export default async function page() {
   return (
     <div className="h-screen">
       <div className="flex justify-center flex-col ">
-        <div className="card frosted w-1/2 mx-auto my-8">
+        <div className="card frosted w-1/2 mx-auto my-8 ">
           <div className="card frosted w-full h-64 bg-[#545454b2]">
             <img
               src={user.backgroundPicture}
@@ -34,17 +34,20 @@ export default async function page() {
             />
           </div>
           <p className=" ml-4 text-md text-center mt-2">
-            {user.username.toUpperCase()}
+            Username: {user.username.toUpperCase()}
           </p>
-
-          <div className="card frosted ml-80 p-8 pr-32 m-4">
+          <p className=" text-md ml-[22rem] mt-2">Bio:</p>
+          <div className="card border-solid border-[rgba(255, 255, 255, 0.3)] border ml-80 p-8 pr-32 mb-4 mr-4">
             <p className="text-center">{user.bio}</p>
           </div>
         </div>
-        <h1 className="text-2xl">Your blog entries:</h1>
+        <div className="mx-auto mb-2">
+          <h1 className="text-2xl">Your blog entries:</h1>
+        </div>
+
         {userBlogPosts.toReversed().map((blogPost) => (
           <div
-            className="card frosted w-1/2 mx-auto"
+            className="card frosted w-1/2 mx-auto p-4"
             key={`blogPost-div-${blogPost.postId}`}
           >
             <div>

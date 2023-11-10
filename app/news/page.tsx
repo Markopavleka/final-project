@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { getUserBySessionToken } from '../../database/users';
 import { getFetchNews } from './action';
 import HandleLike from './handleLikeNews';
+import ScrollAnimation from './scrollAnimation';
 import ShowCommentsNewsCount from './showCommentsNewsCount';
 import ShowLike from './showLike';
 
@@ -37,7 +38,7 @@ export default async function NewsPage() {
   return (
     <div className="grid grid-cols-3 gap-16 mx-32 mt-16">
       {dataWithId.map((news: News) => (
-        <div className="card frosted overflow-hidden" key={`data-${news.id}`}>
+        <ScrollAnimation key={`data-${news.id}`}>
           <Link href={news.url}>
             <figure>
               <img src={news.urlToImage} alt="" />
@@ -66,7 +67,7 @@ export default async function NewsPage() {
               <HandleLike userId={user.id} newsId={news.id} />
             </div>
           </div>
-        </div>
+        </ScrollAnimation>
       ))}
     </div>
   );
