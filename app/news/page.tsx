@@ -1,4 +1,5 @@
 import { UrlObject } from 'node:url';
+import Head from 'next/head';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -37,6 +38,11 @@ export default async function NewsPage() {
   }));
   return (
     <div className="grid grid-cols-3 gap-16 mx-32 mt-16">
+      <Head>
+        <meta charSet="utf-8" />
+        <title>News| TechNewZ</title>
+        <meta name="News" content="News" />
+      </Head>
       {dataWithId.map((news: News) => (
         <ScrollAnimation key={`data-${news.id}`}>
           <Link href={news.url}>
@@ -69,6 +75,7 @@ export default async function NewsPage() {
           </div>
         </ScrollAnimation>
       ))}
+      <div className="mb-32" />
     </div>
   );
 }

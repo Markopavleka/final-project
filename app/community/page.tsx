@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -16,7 +17,7 @@ export default async function Community() {
     sessionTokenCookie &&
     (await getUserBySessionToken(sessionTokenCookie.value));
 
-  if (!user) redirect('/login?returnTo=/');
+  if (!user) redirect('/login?returnTo=/signin');
 
   // Display the notes for the current logged in user
   await getUserBlogPosts(sessionTokenCookie.value);
@@ -25,6 +26,11 @@ export default async function Community() {
 
   return (
     <div>
+      <Head>
+        <meta charSet="utf-8" />
+        <title>Community| TechNewZ</title>
+        <meta name="Community" content="Community" />
+      </Head>
       <CreateBlogPostForm userId={user.id} />
       <h2 className="text-2xl text-center my-8">Community Posts</h2>
       <div className="flex justify-center">

@@ -38,31 +38,31 @@ export default function SignInForm(props: Props) {
   }
 
   return (
-    <div className="flex justify-center ">
-      <div className="card frosted z-[1] p-8 w-96">
+    <div className="flex justify-center flex-col ">
+      <h1 className="m-4 text-2xl text-center font-bold ">Sign In</h1>
+      <div className="card frosted mx-auto">
         <form
           onSubmit={async (event) => await handleRegister(event)}
           className="grid justify-center align-center"
         >
-          <h1 className="m-4 text-2xl text-center">Sign In</h1>
           <label>
-            <p className="mb-1 ml-4 text-md">Username</p>
+            <p className="mx-12 mt-8 mb-2 text-lg">Username</p>
             <input
               onChange={(event) => setUsername(event.currentTarget.value)}
               placeholder="lisa.simpson@springfield.com"
-              className="frosted p-2  mt-1 mb-2"
+              className="frosted p-2  mb-4 mx-8 w-80"
             />
           </label>
           <label>
-            <p className="mb-1 ml-4 text-md">Password</p>
+            <p className="mx-12 mt-4 mb-2 text-lg">Password</p>
             <input
               type="password"
               placeholder="Do not use 1234"
-              className="frosted p-2  mt-1 mb-2"
+              className="frosted p-2  mb-4 mx-8 w-80"
               onChange={(event) => setPassword(event.currentTarget.value)}
             />
           </label>
-          <button className="btn btn-md btn-primary text-[#F5F5F5] mx-auto m-4">
+          <button className="btn btn-md btn-primary text-accent mx-auto m-4">
             Sign In
           </button>
           {errors.map((error) => (
@@ -72,7 +72,7 @@ export default function SignInForm(props: Props) {
           ))}
         </form>
         <Link
-          className="text-primary text-center underline mb-4"
+          className="text-center mb-4 text-accent  underline hover:text-primary hover:scale-105"
           href="/register"
         >
           Register Now

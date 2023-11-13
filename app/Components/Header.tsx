@@ -17,12 +17,12 @@ export default async function Navbar() {
             <Link
               href="/profile"
               tabIndex={0}
-              className="normal-case text-2xl ml-4"
+              className="normal-case font-bold text-2xl ml-4"
             >
               TechNewZ
             </Link>
           ) : (
-            <h1 className="normal-case text-2xl ml-4">TechNewZ</h1>
+            <h1 className="normal-case font-bold text-2xl ml-4">TechNewZ</h1>
           )}
         </div>
 

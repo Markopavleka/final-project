@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { getSafeReturnToPath } from '../../../util/validation';
@@ -38,42 +39,41 @@ export default function RegisterForm(props: Props) {
     router.refresh();
   }
   return (
-    <div className="flex justify-center justify-items-center">
-      <div className="card frosted z-[1] p-8 w-1/2 h-auto mb-12 ">
+    <div className="flex justify-center flex-col ">
+      <h1 className="m-4 text-2xl text-center font-bold">Create a account</h1>
+      <div className="card frosted mx-auto">
         <div className="grid justify-center justify-items-center ">
-          <h1 className="m-4 text-lg text-center">Create a account</h1>
-
           <form
             onSubmit={async (event) => await handleRegister(event)}
-            className="grid"
+            className="grid justify-center align-center"
           >
             <label>
-              <p className="mb-1 ml-4 text-md">User Name</p>
+              <p className="mx-12 mt-8 mb-2 text-lg">User Name</p>
               <input
-                className="frosted p-2  m-2"
+                className="frosted p-2  mb-4 mx-8 w-80"
                 placeholder="Maggie Simpson"
                 onChange={(event) => setUsername(event.currentTarget.value)}
               />
             </label>
             <label>
-              <p className="mb-1 ml-4 text-md">E-Mail</p>
+              <p className="mx-12 mt-8 mb-2 text-lg">E-Mail</p>
               <input
-                className="frosted p-2  m-2"
+                className="frosted p-2  mb-4 mx-8 w-80"
                 placeholder="magie.simpson@springfield.com"
                 onChange={(event) => setEmail(event.currentTarget.value)}
               />
             </label>
             <label>
-              <p className="mb-1 ml-4 text-md">Password</p>
+              <p className="mx-12 mt-8 mb-2 text-lg">Password</p>
               <input
                 type="password"
                 placeholder="Do not use password as your password"
-                className="frosted p-2  m-2"
+                className="frosted p-2  mb-4 mx-8 w-80"
                 onChange={(event) => setPassword(event.currentTarget.value)}
               />
             </label>
 
-            <button className="btn btn-md btn-primary text-[#F5F5F5] mx-auto mt-8">
+            <button className="btn btn-md btn-primary text-accent mx-auto m-4">
               Sign Up
             </button>
             {errors.map((error) => (
@@ -82,15 +82,12 @@ export default function RegisterForm(props: Props) {
               </div>
             ))}
           </form>
-          <div>
-            <ul className="steps my-16">
-              <li className="step step-primary">Register</li>
-              <li className="step ">Profile Picture</li>
-              <li className="step">Background Image</li>
-              <li className="step">Bio</li>
-              <li className="step">Ready</li>
-            </ul>
-          </div>
+          <Link
+            className="text-center mb-4 text-accent  underline hover:text-primary hover:scale-105"
+            href="/signin"
+          >
+            Already have an account?
+          </Link>
         </div>
       </div>
     </div>
