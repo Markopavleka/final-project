@@ -80,7 +80,7 @@ export default function UploadPictureForm(props: { userId: number }) {
         onSubmit={handleOnSubmit}
         className="grid justify-center align-center justify-items-center"
       >
-        <p className="mb-1 ml-4 text-md my-2">Profile Picture</p>
+        <p className="mb-1 font-medium  ml-4 text-lg my-2">Profile Picture</p>
 
         <div className="avatar rounded-full w-52 h-52 bg-[#545454b2]">
           <img className="rounded-full border-2 " src={imageSrc} alt="" />

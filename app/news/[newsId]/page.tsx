@@ -1,4 +1,5 @@
 import { UrlObject } from 'node:url';
+import Head from 'next/head';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -54,6 +55,11 @@ export default async function page(props: Props) {
 
   return (
     <div className="flex justify-center">
+      <Head>
+        <meta charSet="utf-8" />
+        <title>News| TechNewZ</title>
+        <meta name="News" content="News" />
+      </Head>
       <div className="w-1/2 ml-4 ">
         <div className="card frosted z-[1] my-8">
           <Link href={dataWithId[index].url}>

@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import postgres from 'postgres';
@@ -33,6 +34,11 @@ export default async function BlogPostPage(props: Props) {
   if (singleBlogPost[0]) {
     return (
       <div className="flex justify-center">
+        <Head>
+          <meta charSet="utf-8" />
+          <title>Community| TechNewZ</title>
+          <meta name="Community" content="Community" />
+        </Head>
         <div className="w-1/2 ml-4 ">
           <div className="card frosted z-[1] my-8">
             <div>

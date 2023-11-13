@@ -80,9 +80,9 @@ export default function UploadPictureForm(props: {
 
   return (
     <div>
-      <p className=" ml-4 text-md text-center">Background Picture</p>
-      <p className=" ml-4 text-md ">Profile Preview:</p>
-      <div className="card frosted h-96">
+      <p className=" ml-4 text-lg font-bold text-center">Background Picture</p>
+      <p className=" ml-4 font-small text-md ">Profile Preview:</p>
+      <div className="card frosted ">
         <div className="card frosted w-full h-64 bg-[#545454b2]">
           <img
             src={imageSrc}
@@ -97,7 +97,7 @@ export default function UploadPictureForm(props: {
             alt=""
           />
         </div>
-        <p className=" ml-4 text-md text-center mt-2">
+        <p className=" ml-4 text-lg font-bold text-center mt-2">
           {props.username.toUpperCase()}
         </p>
       </div>
@@ -115,7 +115,7 @@ export default function UploadPictureForm(props: {
         </div>
 
         <div>
-          <button className="btn btn-primary m-4 ">Set Picture</button>
+          <button className="btn btn-primary m-4 mt-2 ">Set Picture</button>
         </div>
       </form>
     </div>

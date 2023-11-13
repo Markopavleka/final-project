@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import React from 'react';
@@ -17,6 +18,11 @@ export default async function page() {
   console.log(userBlogPosts);
   return (
     <div className="h-screen">
+      <Head>
+        <meta charSet="utf-8" />
+        <title> Profile | TechNewZ</title>
+        <meta name="Profile" content="Profile" />
+      </Head>
       <div className="flex justify-center flex-col ">
         <div className="card frosted w-1/2 mx-auto my-8 ">
           <div className="card frosted w-full h-64 bg-[#545454b2]">
@@ -33,7 +39,7 @@ export default async function page() {
               alt=""
             />
           </div>
-          <p className=" ml-4 text-md text-center mt-2">
+          <p className=" ml-4 text-md font-bold text-center mt-2">
             Username: {user.username.toUpperCase()}
           </p>
           <p className=" text-md ml-[22rem] mt-2">Bio:</p>

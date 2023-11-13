@@ -1,10 +1,10 @@
+import Head from 'next/head';
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import { getUserBySessionToken } from '../../../../database/users';
 import UploadPictureForm from './uploadPictureForm';
-
-// import Upload from './uploadPictureForm1';
 
 export default async function AccountSetup() {
   const sessionTokenCookie = cookies().get('sessionToken');
@@ -16,12 +16,18 @@ export default async function AccountSetup() {
   if (!user) redirect('/login?returnTo=/app');
   return (
     <div className="h-screen">
-      <div className="flex justify-center ">
-        <div className="card frosted z-[1] p-8 w-1/2">
-          <form action="/" className="grid">
-            <h1 className="m-4 text-lg text-center">Create your profile</h1>
-          </form>
-
+      <Head>
+        <meta charSet="utf-8" />
+        <title>Profile Picture | Customize your profile</title>
+        <meta name="Setup Profile" content="Customize your profile picture" />
+      </Head>
+      <div className="flex justify-center flex-col">
+        <div className="mt-8">
+          <h1 className="m-2 text-xl font-medium text-center">
+            Create your profile picture
+          </h1>
+        </div>
+        <div className="card frosted mx-auto p-8">
           <UploadPictureForm userId={user.id} />
           <ul className="steps my-4">
             <li className="step step-primary">Register</li>
@@ -30,6 +36,12 @@ export default async function AccountSetup() {
             <li className="step">Bio</li>
             <li className="step">Ready</li>
           </ul>
+          <Link
+            className="text-center mt-4 text-accent  underline hover:text-primary hover:scale-105"
+            href="/profile"
+          >
+            Skip and set up your profile later
+          </Link>
         </div>
       </div>
     </div>
