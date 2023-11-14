@@ -15,7 +15,6 @@ export default async function page() {
 
   const userBlogPosts = await getUserBlogPosts(sessionTokenCookie.value);
 
-  console.log(userBlogPosts);
   return (
     <div className="h-screen">
       <Head>

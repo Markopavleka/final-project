@@ -4,6 +4,7 @@ export type LikeNews = {
   id: number;
   userId: number;
   newsId: number;
+  liked: boolean | null;
 };
 
 export async function up(sql: Sql) {
@@ -11,7 +12,9 @@ export async function up(sql: Sql) {
     CREATE TABLE likesnews (
       id serial PRIMARY KEY,
       user_id integer NOT NULL,
-      news_id integer NOT NULL
+      news_id integer NOT NULL,
+      liked BOOLEAN,
+      CONSTRAINT unique_user_news_pair UNIQUE (user_id, news_id)
     );
   `;
 }

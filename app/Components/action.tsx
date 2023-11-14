@@ -7,7 +7,6 @@ export default function ThemeSwitch() {
       'light',
   );
 
-  // update state on toggle
   const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       setTheme('dark');

@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSession } from '../../../../database/sessions';
 import { createUser, getUserByUsername } from '../../../../database/users';
-import { User } from '../../../../migrations/00000-createTableUsers';
 import { secureCookieOptions } from '../../../../util/cookies';
 
 const registerSchema = z.object({
@@ -13,10 +12,15 @@ const registerSchema = z.object({
   email: z.string().min(5),
   password: z.string().min(3),
 });
+type RegisterUser = {
+  id: number;
+  username: string;
+  email: string;
+};
 
 export type RegisterResponseBodyPost =
   | {
-      user: User;
+      user: RegisterUser;
     }
   | {
       errors: { message: string }[];
@@ -47,7 +51,7 @@ export async function POST(
 
   if (user) {
     return NextResponse.json(
-      { errors: [{ message: 'username is already taken' }] },
+      { errors: [{ message: 'username or email is already taken' }] },
       { status: 403 },
     );
   }
