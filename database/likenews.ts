@@ -39,7 +39,7 @@ ORDER BY user_id, news_id
 
 export const updateLikeNews = cache(
   async (userId: number, newsId: number, liked: boolean) => {
-    const like = await sql<LikeNews[]>`
+    const [like] = await sql<LikeNews[]>`
       UPDATE likesnews
       SET liked = ${liked}
       WHERE news_id = ${newsId} AND user_id = ${userId}
@@ -62,6 +62,7 @@ export const getLikeNewsWhereIdsMatch = cache(
       FROM likesnews
       WHERE news_id = ${newsId} AND user_id = ${userId}
     `;
+    console.log(likes);
     return likes;
   },
 );

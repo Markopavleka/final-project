@@ -38,23 +38,24 @@ export default function HandleLike({ userId, newsId }: LikeFormProps) {
   const router = useRouter();
   const [liked, setLiked] = useState(false);
 
-  async function handleCreateLike() {
+  async function handleCreateLike(likedValue: boolean) {
     await fetch('/api/likenews', {
       method: 'POST',
       body: JSON.stringify({
         userId,
         newsId,
-        liked,
+        liked: likedValue,
       }),
     });
     router.refresh();
   }
+
   return (
     <div>
       <form
         onSubmit={async (event) => {
           event.preventDefault();
-          await handleCreateLike();
+          await handleCreateLike(liked);
         }}
       >
         <button

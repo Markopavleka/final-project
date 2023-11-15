@@ -13,8 +13,7 @@ export async function up(sql: Sql) {
       id serial PRIMARY KEY,
       user_id integer NOT NULL,
       news_id integer NOT NULL,
-      liked BOOLEAN,
-      CONSTRAINT unique_user_news_pair UNIQUE (user_id, news_id)
+      liked BOOLEAN
     );
   `;
 }

@@ -56,7 +56,7 @@ export async function POST(
     result.data.userId,
     result.data.bio,
   );
-  console.log(newUpdatedUser);
+
   if (!newUpdatedUser) {
     return NextResponse.json(
       { errors: [{ message: 'Error creating the picture' }] },
