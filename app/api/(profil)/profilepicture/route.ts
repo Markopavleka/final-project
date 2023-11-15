@@ -54,13 +54,12 @@ export async function POST(
       { status: 401 },
     );
   }
-  console.log(typeof result.data.userId);
-  console.log(typeof result.data.profilePicture);
+
   const newUpdatedUser = await updateUserProfilePicture(
     result.data.userId,
     result.data.profilePicture,
   );
-  console.log(newUpdatedUser);
+
   if (!newUpdatedUser) {
     return NextResponse.json(
       { errors: [{ message: 'Error creating the picture' }] },

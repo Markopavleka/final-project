@@ -1,13 +1,18 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createLikeNews } from '../../../database/likenews';
+import {
+  createLikeNews,
+  getLikeNewsWhereIdsMatch,
+  updateLikeNews,
+} from '../../../database/likenews';
 import { getValidSessionByToken } from '../../../database/sessions';
 import { LikeNews } from '../../../migrations/00006-createTableLikesNews';
 
 const likeNewsSchema = z.object({
   userId: z.number(),
   newsId: z.number(),
+  liked: z.boolean(),
 });
 
 export type LikesNewsResponseBodyPost =
@@ -49,19 +54,42 @@ export async function POST(
       { status: 401 },
     );
   }
-
-  const newLikeNews = await createLikeNews(
+  const likes = await getLikeNewsWhereIdsMatch(
     result.data.userId,
     result.data.newsId,
   );
+  console.log(likes.length > 0);
 
-  if (!newLikeNews) {
-    return NextResponse.json(
-      { errors: [{ message: 'Error creating the new Post' }] },
-      { status: 406 },
+  if (likes.length > 0) {
+    const updateLikes = await updateLikeNews(
+      result.data.userId,
+      result.data.newsId,
+      result.data.liked,
     );
+    if (!updateLikes) {
+      return NextResponse.json(
+        { errors: [{ message: 'Error updating the like' }] },
+        { status: 500 },
+      );
+    }
+    return NextResponse.json({
+      likenews: updateLikes,
+    });
+  } else {
+    const newLikeNews = await createLikeNews(
+      result.data.userId,
+      result.data.newsId,
+      result.data.liked,
+    );
+
+    if (!newLikeNews) {
+      return NextResponse.json(
+        { errors: [{ message: 'Error creating the new like' }] },
+        { status: 406 },
+      );
+    }
+    return NextResponse.json({
+      likenews: newLikeNews,
+    });
   }
-  return NextResponse.json({
-    likenews: newLikeNews,
-  });
 }

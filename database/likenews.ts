@@ -10,17 +10,20 @@ export const getLike = cache(async () => {
   return likes;
 });
 
-export const createLikeNews = cache(async (userId: number, newsId: number) => {
-  const [like] = await sql<LikeNews[]>`
+export const createLikeNews = cache(
+  async (userId: number, newsId: number, liked: boolean) => {
+    const [like] = await sql<LikeNews[]>`
       INSERT INTO likesnews
-      (user_id, news_id)
+      (user_id, news_id, liked)
       VALUES
-        (${userId}, ${newsId})
+        (${userId}, ${newsId}, ${liked})
       RETURNING *
+
     `;
 
-  return like;
-});
+    return like;
+  },
+);
 
 type LikesNewsWithoutId = { userId: number; newsId: number };
 
@@ -30,6 +33,45 @@ SELECT DISTINCT user_id, news_id
 FROM likesnews
 WHERE news_id = ${newsId}
 ORDER BY user_id, news_id
+  `;
+  return likes;
+});
+
+export const updateLikeNews = cache(
+  async (userId: number, newsId: number, liked: boolean) => {
+    const [like] = await sql<LikeNews[]>`
+      UPDATE likesnews
+      SET liked = ${liked}
+      WHERE news_id = ${newsId} AND user_id = ${userId}
+      RETURNING *;
+    `;
+    return like;
+  },
+);
+
+export type LikesWithIds = {
+  id: number;
+  userId: number;
+  newsId: number;
+  liked: boolean | null;
+};
+export const getLikeNewsWhereIdsMatch = cache(
+  async (newsId: number, userId: number) => {
+    const likes = await sql<LikesWithIds[]>`
+      SELECT *
+      FROM likesnews
+      WHERE news_id = ${newsId} AND user_id = ${userId}
+    `;
+    console.log(likes);
+    return likes;
+  },
+);
+
+export const getLikeNews = cache(async (newsId: number) => {
+  const likes = await sql<LikesNewsWithoutId[]>`
+SELECT *
+FROM likesnews
+WHERE news_id = ${newsId} AND liked = true
   `;
   return likes;
 });
