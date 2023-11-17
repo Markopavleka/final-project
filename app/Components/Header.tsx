@@ -71,7 +71,12 @@ export default async function Navbar() {
                 </button>
                 <ul className="menu menu-lg frosted dropdown-content mt-3 z-[999] p-2 rounded-box w-52 hover:text-accent">
                   <li>
-                    <a className="hover:text-accent">Settings</a>
+                    <Link
+                      href="/profile/settings"
+                      className="hover:text-accent"
+                    >
+                      Settings
+                    </Link>
                   </li>
                   <li>
                     <LogoutButton />

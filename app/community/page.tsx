@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 import { getAllBlogPosts } from '../../database/posts';
 import { getUserBlogPosts, getUserBySessionToken } from '../../database/users';
+import { commentIcon } from '../Components/icons';
 import CreateBlogPostForm from './createBlogPostForm';
 import HandleLike from './handleLike';
 import ShowCommentsCount from './showCommentsCount';
@@ -56,7 +57,7 @@ export default async function Community() {
                   <div className="ml-8 mr-2">
                     <ShowCommentsCount postId={blogPost.postId} />
                   </div>
-
+                  <div>{commentIcon}</div>
                   <div>
                     <Link
                       className="mr-4 hover:underline"

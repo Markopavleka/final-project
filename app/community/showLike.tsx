@@ -1,8 +1,8 @@
 import React from 'react';
-import { getNoDuplicateLike } from '../../database/likes';
+import { getLikeByPostId } from '../../database/likes';
 
 export default async function ShowLike({ postId }: { postId: number }) {
-  const like = await getNoDuplicateLike(postId);
+  const like = await getLikeByPostId(postId);
 
   const likeCounter = like.length;
   return (

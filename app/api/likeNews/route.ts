@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
   createLikeNews,
+  deleteLikeNewsById,
   getLikeNewsWhereIdsMatch,
-  updateLikeNews,
 } from '../../../database/likenews';
 import { getValidSessionByToken } from '../../../database/sessions';
 import { LikeNews } from '../../../migrations/00006-createTableLikesNews';
@@ -12,7 +12,6 @@ import { LikeNews } from '../../../migrations/00006-createTableLikesNews';
 const likeNewsSchema = z.object({
   userId: z.number(),
   newsId: z.number(),
-  liked: z.boolean(),
 });
 
 export type LikesNewsResponseBodyPost =
@@ -54,32 +53,30 @@ export async function POST(
       { status: 401 },
     );
   }
+
   const likes = await getLikeNewsWhereIdsMatch(
     result.data.userId,
     result.data.newsId,
   );
-  console.log(likes.length > 0);
 
   if (likes.length > 0) {
-    const updateLikes = await updateLikeNews(
+    const deleteLikes = await deleteLikeNewsById(
       result.data.userId,
       result.data.newsId,
-      result.data.liked,
     );
-    if (!updateLikes) {
+    if (!deleteLikes) {
       return NextResponse.json(
         { errors: [{ message: 'Error updating the like' }] },
         { status: 500 },
       );
     }
     return NextResponse.json({
-      likenews: updateLikes,
+      likenews: deleteLikes,
     });
   } else {
     const newLikeNews = await createLikeNews(
       result.data.userId,
       result.data.newsId,
-      result.data.liked,
     );
 
     if (!newLikeNews) {

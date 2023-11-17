@@ -1,7 +1,11 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createLike } from '../../../database/likes';
+import {
+  createLike,
+  deleteLikeById,
+  getLikeWhereIdsMatch,
+} from '../../../database/likes';
 import { getValidSessionByToken } from '../../../database/sessions';
 import { Like } from '../../../migrations/00004-createTableLikes';
 
@@ -50,15 +54,36 @@ export async function POST(
     );
   }
 
-  const newLike = await createLike(result.data.userId, result.data.postId);
+  const likes = await getLikeWhereIdsMatch(
+    result.data.userId,
+    result.data.postId,
+  );
 
-  if (!newLike) {
-    return NextResponse.json(
-      { errors: [{ message: 'Error creating the new Post' }] },
-      { status: 406 },
+  if (likes.length > 0) {
+    const deleteLikes = await deleteLikeById(
+      result.data.userId,
+      result.data.postId,
     );
+    if (!deleteLikes) {
+      return NextResponse.json(
+        { errors: [{ message: 'Error updating the like' }] },
+        { status: 500 },
+      );
+    }
+    return NextResponse.json({
+      like: deleteLikes,
+    });
+  } else {
+    const newLike = await createLike(result.data.userId, result.data.postId);
+
+    if (!newLike) {
+      return NextResponse.json(
+        { errors: [{ message: 'Error creating the new like' }] },
+        { status: 406 },
+      );
+    }
+    return NextResponse.json({
+      like: newLike,
+    });
   }
-  return NextResponse.json({
-    like: newLike,
-  });
 }

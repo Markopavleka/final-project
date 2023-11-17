@@ -32,10 +32,20 @@ export default async function NewsPage() {
   if (!user) redirect('/login?returnTo=/');
 
   const data = await getFetchNews();
+
   const dataWithId = data.articles.map((item: News, index: number) => ({
     ...item,
     id: index + 1,
   }));
+
+  function transformDateFormat(apiDate: string) {
+    const originalDate = new Date(apiDate);
+    const day = originalDate.getDate().toString().padStart(2, '0');
+    const month = (originalDate.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
+    const year = originalDate.getFullYear();
+
+    return `${day}.${month}.${year}`;
+  }
   return (
     <div className="grid grid-cols-3 gap-16 mx-32 mt-16">
       <Head>
@@ -45,21 +55,31 @@ export default async function NewsPage() {
       </Head>
       {dataWithId.map((news: News) => (
         <ScrollAnimation key={`data-${news.id}`}>
-          <Link href={news.url}>
+          <Link href={news.url} className="flex flex-col">
             <figure>
-              <img src={news.urlToImage} alt="" />
+              <img
+                src={news.urlToImage}
+                alt={news.title}
+                className=" h-80 object-cover"
+              />
             </figure>
             <div className="frosted rounded-none m-0 p-2">
-              <h1 className="text-lg hover:underline">{news.title}</h1>
-              <h2 className="text-sm ">{news.author}</h2>
+              <h1 className="text-lg font-bold hover:underline">
+                {news.title}
+              </h1>
+              <h2 className="text-sm">{news.author}</h2>
             </div>
           </Link>
 
-          <div className="m-0 p-2">
+          <div className="m-0 p-2 ">
             <p>{news.description}</p>
-            <p>{news.publishedAt}</p>
+
+            <p className="m-0 p-2 mb-0 mt-auto">
+              {transformDateFormat(news.publishedAt)}
+            </p>
           </div>
-          <div className="flex flex-row">
+          <div className="divider mt-0" />
+          <div className="flex flex-row items-center">
             <div className="ml-8 mr-2">
               <ShowCommentsNewsCount newsId={news.id} />
             </div>
