@@ -5,7 +5,6 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 import { getAllBlogPosts } from '../../database/posts';
 import { getUserBlogPosts, getUserBySessionToken } from '../../database/users';
-import { commentIcon } from '../Components/icons';
 import CreateBlogPostForm from './createBlogPostForm';
 import HandleLike from './handleLike';
 import ShowCommentsCount from './showCommentsCount';
@@ -24,7 +23,7 @@ export default async function Community() {
   await getUserBlogPosts(sessionTokenCookie.value);
 
   const allBlogPosts = await getAllBlogPosts();
-
+  console.log(allBlogPosts);
   return (
     <div>
       <Head>
@@ -41,37 +40,42 @@ export default async function Community() {
               className="card frosted z-[1] my-8 p-4"
               key={`blogPost-div-${blogPost.postId}`}
             >
-              <div>
+              <div className="flex items-center m-4">
+                <img
+                  alt="Profile"
+                  src={blogPost.profilePicture}
+                  className="w-16 h-16 rounded-full object-cover m-2"
+                />
+
                 <h2 className="text-xl text-center my-4">
                   {blogPost.username}
                 </h2>
-                <h3 className="mb-1 ml-8 text-md">Title:</h3>
-                <p className="card frosted mb-1 mx-4 text-md p-4">
-                  {blogPost.title}
-                </p>
-                <h3 className="mb-1 ml-8 text-md ">Description:</h3>
-                <p className="card frosted my-4 mx-4 text-md p-4">
-                  {blogPost.post}
-                </p>
-                <div className="flex flex-row">
-                  <div className="ml-8 mr-2">
-                    <ShowCommentsCount postId={blogPost.postId} />
-                  </div>
-                  <div>{commentIcon}</div>
-                  <div>
-                    <Link
-                      className="mr-4 hover:underline"
-                      href={`/community/${blogPost.postId}`}
-                    >
-                      Comment
-                    </Link>
-                  </div>
-                  <div>
-                    <ShowLike postId={blogPost.postId} />
-                  </div>
-                  <div className="mr-2">
-                    <HandleLike userId={user.id} postId={blogPost.postId} />
-                  </div>
+              </div>
+              <h3 className="mb-1 ml-8 text-md">Title:</h3>
+              <p className="card frosted mb-1 mx-4 text-md p-4">
+                {blogPost.title}
+              </p>
+              <h3 className="mb-1 ml-8 text-md mt-2">Description:</h3>
+              <p className="card frosted my-4 mx-4 text-md p-4">
+                {blogPost.post}
+              </p>
+              <div className="flex flex-row">
+                <div className="ml-8 mr-2">
+                  <ShowCommentsCount postId={blogPost.postId} />
+                </div>
+                <div>
+                  <Link
+                    className="mr-4 hover:underline"
+                    href={`/community/${blogPost.postId}`}
+                  >
+                    Comment
+                  </Link>
+                </div>
+                <div>
+                  <ShowLike postId={blogPost.postId} />
+                </div>
+                <div className="mr-2">
+                  <HandleLike userId={user.id} postId={blogPost.postId} />
                 </div>
               </div>
             </div>

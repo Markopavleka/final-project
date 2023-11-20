@@ -1,12 +1,5 @@
 import { Sql } from 'postgres';
 
-export type CommentNews = {
-  id: number;
-  userId: number;
-  newsId: number;
-  comment: string;
-};
-
 export async function up(sql: Sql) {
   await sql`
     CREATE TABLE commentsnews (

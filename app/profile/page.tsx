@@ -11,7 +11,7 @@ export default async function page() {
     sessionTokenCookie &&
     (await getUserBySessionToken(sessionTokenCookie.value));
 
-  if (!user) redirect('/login?returnTo=/app');
+  if (!user) redirect('/login?returnTo=/signin');
 
   const userBlogPosts = await getUserBlogPosts(sessionTokenCookie.value);
 

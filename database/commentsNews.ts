@@ -1,7 +1,13 @@
 import 'server-only';
 import { cache } from 'react';
-import { CommentNews } from '../migrations/00005-createTableCommentsNews';
 import { sql } from './connect';
+
+export type CommentNews = {
+  id: number;
+  userId: number;
+  newsId: number;
+  comment: string;
+};
 
 export const createNewsComment = cache(
   async (userId: number, newsId: number, comment: string) => {
@@ -21,6 +27,7 @@ type CommentNewsWithUsername = {
   comment: string;
   newsId: number;
   username: string;
+  profilePicture: string | null;
 };
 
 export const getUserNewsComments = cache(async () => {
@@ -29,7 +36,8 @@ export const getUserNewsComments = cache(async () => {
       commentsnews.id AS comment_id,
       commentsnews.comment AS comment,
       commentsnews.news_id AS news_id,
-      users.username AS username
+      users.username AS username,
+      users.profile_picture as profile_picture
     FROM
     commentsnews
     INNER JOIN
@@ -45,7 +53,8 @@ export const getUserNewsCommentsByNewsId = cache(async (newsId: number) => {
       commentsnews.id AS comment_id,
       commentsnews.comment AS comment,
       commentsnews.news_id AS news_id,
-      users.username AS username
+      users.username AS username,
+      users.profile_picture as profile_picture
     FROM
     commentsnews
     INNER JOIN

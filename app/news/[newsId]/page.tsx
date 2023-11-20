@@ -5,7 +5,10 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import { getUserBySessionToken } from '../../../database/users';
+import { transformDateFormat } from '../../Components/DateConverter';
 import { getFetchNews } from '../action';
+import HandleLike from '../handleLikeNews';
+import ShowLike from '../showLike';
 import CommentNewsForm from './commentNewsForm';
 import DisplayComments from './displayCommentsNews';
 
@@ -34,7 +37,7 @@ export default async function page(props: Props) {
     sessionTokenCookie &&
     (await getUserBySessionToken(sessionTokenCookie.value));
 
-  if (!user) redirect('/login?returnTo=/');
+  if (!user) redirect('/login?returnTo=/signin');
 
   const data = await getFetchNews();
   const dataWithId = data.articles.map((item: News, index: number) => ({
@@ -61,10 +64,13 @@ export default async function page(props: Props) {
         <meta name="News" content="News" />
       </Head>
       <div className="w-1/2 ml-4 ">
-        <div className="card frosted z-[1] my-8">
+        <div className="card frosted z-[1] my-8 overflow-hidden">
           <Link href={dataWithId[index].url}>
             <figure>
-              <img src={dataWithId[index].urlToImage} alt="" />
+              <img
+                src={dataWithId[index].urlToImage}
+                alt={dataWithId[index].title}
+              />
             </figure>
             <div className="frosted rounded-none m-0 p-2">
               <h1 className="text-xl hover:underline">
@@ -76,10 +82,18 @@ export default async function page(props: Props) {
 
           <div className="m-0 p-2">
             <p>{dataWithId[index].description}</p>
-            <p>{dataWithId[index].publishedAt}</p>
+            <p>{transformDateFormat(dataWithId[index].publishedAt)}</p>
           </div>
-          <div className="divider " />
-          <div className="divider " />
+          <div className="divider m-0" />
+          <div className="flex items-center justify-start my-1 ml-8">
+            <div className="mx-4">
+              <ShowLike postId={dataWithId[index].id} />
+            </div>
+            <div>
+              <HandleLike userId={user.id} newsId={dataWithId[index].id} />
+            </div>
+          </div>
+          <div className="divider m-0" />
 
           <h3 className="mb-1 ml-8 text-md">Comments:</h3>
           <DisplayComments newsId={dataWithId[index].id} />

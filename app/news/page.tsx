@@ -4,9 +4,11 @@ import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getUserBySessionToken } from '../../database/users';
+import { transformDateFormat } from '../Components/DateConverter';
+// import { commentIcon } from '../Components/icons';
 import { getFetchNews } from './action';
 import HandleLike from './handleLikeNews';
-import ScrollAnimation from './scrollAnimation';
+import ScrollAnimation from './scrollAnimationNews';
 import ShowCommentsNewsCount from './showCommentsNewsCount';
 import ShowLike from './showLike';
 
@@ -29,7 +31,7 @@ export default async function NewsPage() {
     sessionTokenCookie &&
     (await getUserBySessionToken(sessionTokenCookie.value));
 
-  if (!user) redirect('/login?returnTo=/');
+  if (!user) redirect('/login?returnTo=/signin');
 
   const data = await getFetchNews();
 
@@ -38,14 +40,6 @@ export default async function NewsPage() {
     id: index + 1,
   }));
 
-  function transformDateFormat(apiDate: string) {
-    const originalDate = new Date(apiDate);
-    const day = originalDate.getDate().toString().padStart(2, '0');
-    const month = (originalDate.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
-    const year = originalDate.getFullYear();
-
-    return `${day}.${month}.${year}`;
-  }
   return (
     <div className="grid grid-cols-3 gap-16 mx-32 mt-16">
       <Head>
@@ -60,7 +54,7 @@ export default async function NewsPage() {
               <img
                 src={news.urlToImage}
                 alt={news.title}
-                className=" h-80 object-cover"
+                className=" h-80 object-cover "
               />
             </figure>
             <div className="frosted rounded-none m-0 p-2">
@@ -71,25 +65,31 @@ export default async function NewsPage() {
             </div>
           </Link>
 
-          <div className="m-0 p-2 ">
-            <p>{news.description}</p>
-
+          <div className="m-0 p-2 flex flex-col h-44">
+            <div>
+              <p>{news.description}</p>
+            </div>
             <p className="m-0 p-2 mb-0 mt-auto">
               {transformDateFormat(news.publishedAt)}
             </p>
           </div>
-          <div className="divider mt-0" />
-          <div className="flex flex-row items-center">
-            <div className="ml-8 mr-2">
+          <div className="divider m-0" />
+          <div className="flex items-center justify-center my-1 ">
+            <div className="mx-4">
               <ShowCommentsNewsCount newsId={news.id} />
             </div>
-            <Link className="mr-4 hover:underline" href={`/news/${news.id}`}>
-              Comment
-            </Link>
-            <div>
+            <div className="mr-4">
+              <Link
+                className="mr-4 hover:underline hover:scale-110"
+                href={`/news/${news.id}`}
+              >
+                Comment
+              </Link>
+            </div>
+            <div className="mx-4">
               <ShowLike postId={news.id} />
             </div>
-            <div className="mr-2">
+            <div className="mr-4">
               <HandleLike userId={user.id} newsId={news.id} />
             </div>
           </div>

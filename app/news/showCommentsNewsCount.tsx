@@ -11,7 +11,7 @@ export default async function ShowCommentsNewsCount(props: Props) {
 
   return (
     <div className="flex align-center justify-center">
-      <div className="badge badge-primary badge-lg">{countComments}</div>
+      <div className="badge badge-primary badge-lg p-2">{countComments}</div>
     </div>
   );
 }

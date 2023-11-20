@@ -1,7 +1,13 @@
 import 'server-only';
 import { cache } from 'react';
-import { Comment } from '../migrations/00003-createTableComments';
 import { sql } from './connect';
+
+export type Comment = {
+  id: number | null;
+  userId: number | null;
+  postId: number | null;
+  comment: string | null;
+};
 
 export const createComment = cache(
   async (userId: number, postId: number, comment: string) => {
@@ -17,18 +23,22 @@ export const createComment = cache(
   },
 );
 type CommentWithUsername = {
-  commentId: number;
-  comment: string;
-  postId: number;
-  username: string;
+  commentId: number | null;
+  comment: string | null;
+  postId: number | null;
+  username: string | null;
+  profilePicture: string | null;
 };
+
 export const getUserComments = cache(async () => {
   const comments = await sql<CommentWithUsername[]>`
     SELECT
       comments.id AS comment_id,
       comments.comment AS comment,
       comments.post_id AS post_id,
-      users.username AS username
+      users.username AS username,
+      users.profile_picture as profile_picture
+
     FROM
     comments
     INNER JOIN
@@ -44,7 +54,8 @@ export const getUserCommentsByPostId = cache(async (postId: number) => {
       comments.id AS comment_id,
       comments.comment AS comment,
       comments.post_id AS post_id,
-      users.username AS username
+      users.username AS username,
+      users.profile_picture as profile_picture
     FROM
     comments
     INNER JOIN

@@ -13,11 +13,18 @@ export default async function DisplayComments(props: Props) {
       {allComments.toReversed().map((comment) => (
         <div key={`blogPost-div-${comment.commentId}`}>
           <div>
-            <h2 className="text-md ml-8 my-4">{comment.username}</h2>
+            <div className="flex items-center m-4">
+              <img
+                alt="Profile"
+                src={comment.profilePicture ?? ''}
+                className="w-16 h-16 rounded-full object-cover m-2"
+              />
+
+              <h2 className="text-xl text-center my-4">{comment.username}</h2>
+            </div>
             <p className="card frosted mb-8 mx-4 text-md p-4">
               {comment.comment}
             </p>
-            <div className="divider " />
           </div>
         </div>
       ))}

@@ -31,6 +31,7 @@ export type UserBlogPostWithoutUserId = {
   title: string;
   post: string;
   username: string;
+  profilePicture: string;
 };
 export type UserNameEmail = {
   id: number;
@@ -127,6 +128,7 @@ export const getUserBlogPostBySessionToken = cache(async (token: string) => {
       posts.title AS title,
       posts.post AS post,
       users.username AS username
+      users.profile_picture as profile_picture
     FROM
       posts
     INNER JOIN

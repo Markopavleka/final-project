@@ -26,7 +26,7 @@ export default async function BlogPostPage(props: Props) {
     sessionTokenCookie &&
     (await getUserBySessionToken(sessionTokenCookie.value));
 
-  if (!user) redirect('/login?returnTo=/');
+  if (!user) redirect('/login?returnTo=/signin');
 
   const singleBlogPost: postgres.RowList<UserBlogPostWithoutUserId[]> =
     await getBlogPostsById(props.params.blogPostId);
@@ -42,9 +42,18 @@ export default async function BlogPostPage(props: Props) {
         <div className="w-1/2 ml-4 ">
           <div className="card frosted z-[1] my-8">
             <div>
-              <h2 className="text-xl text-center my-4">
-                {singleBlogPost[0].username}
-              </h2>
+              <div className="flex items-center m-4">
+                <img
+                  alt="Profile"
+                  src={singleBlogPost[0].profilePicture}
+                  className="w-16 h-16 rounded-full object-cover m-2"
+                />
+
+                <h2 className="text-xl text-center my-4">
+                  {singleBlogPost[0].username}
+                </h2>
+              </div>
+
               <h3 className="mb-1 ml-8 text-md">Title:</h3>
               <p className="card frosted mb-1 mx-4 text-md p-4">
                 {singleBlogPost[0].title}
@@ -53,23 +62,23 @@ export default async function BlogPostPage(props: Props) {
               <p className="card frosted my-4 mx-4 text-md p-4">
                 {singleBlogPost[0].post}
               </p>
-              <div className="flex flex-row">
-                <div className="ml-8">
-                  <ShowLike postId={singleBlogPost[0].postId} />
-                </div>
-                <div className="mr-2">
-                  <HandleLike
-                    userId={user.id}
-                    postId={singleBlogPost[0].postId}
-                  />
-                </div>
-              </div>
-              <div className="divider " />
-              <div className="divider " />
-
-              <h3 className="mb-1 ml-8 text-md">Comments:</h3>
-              <DisplayComments postId={singleBlogPost[0].postId} />
             </div>
+            <div className="divider m-0" />
+            <div className="flex items-center justify-start my-1 ml-8">
+              <div className="mx-4">
+                <ShowLike postId={singleBlogPost[0].postId} />
+              </div>
+              <div>
+                <HandleLike
+                  userId={user.id}
+                  postId={singleBlogPost[0].postId}
+                />
+              </div>
+            </div>
+            <div className="divider m-0" />
+
+            <h3 className="mb-1 ml-8 text-md">Comments:</h3>
+            <DisplayComments postId={singleBlogPost[0].postId} />
           </div>
           <CommentForm userId={user.id} postId={singleBlogPost[0].postId} />
         </div>

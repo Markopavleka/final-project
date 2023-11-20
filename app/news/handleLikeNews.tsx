@@ -25,12 +25,18 @@ export default function HandleLike({ userId, newsId }: LikeFormProps) {
   return (
     <div>
       <form
+        className="mt-1 p-0"
         onSubmit={async (event) => {
           event.preventDefault();
           await handleCreateLike();
         }}
       >
-        <button className="ml-2 hover:scale-125">{filledHeart}</button>
+        <button
+          className="stroke-accent hover:scale-125 tooltip"
+          data-tip="Like"
+        >
+          {filledHeart}
+        </button>
       </form>
     </div>
   );
