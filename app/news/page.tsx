@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getUserBySessionToken } from '../../database/users';
 import { transformDateFormat } from '../Components/DateConverter';
-// import { commentIcon } from '../Components/icons';
 import { getFetchNews } from './action';
 import HandleLike from './handleLikeNews';
 import ScrollAnimation from './scrollAnimationNews';
@@ -22,6 +21,12 @@ type News = {
   publishedAt: string;
   content: string;
   id: number;
+};
+
+export const metadata = {
+  title: 'TechNewZ|| News',
+  description:
+    'Stay ahead of the curve with TechNewZ, your source for the latest in the ever in the ever-evolving world of technology. At TechNewZ we pride ourselves on delivering unbiased and objective news coverage, ensuring you get an accurate and balanced insight into the fast-paced the fast-paced technology landscape.',
 };
 
 export default async function NewsPage() {

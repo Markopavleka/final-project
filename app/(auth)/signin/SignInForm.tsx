@@ -49,7 +49,6 @@ export default function SignInForm(props: Props) {
             <p className="mx-12 mt-8 mb-2 text-lg">Username</p>
             <input
               onChange={(event) => setUsername(event.currentTarget.value)}
-              placeholder="lisa.simpson@springfield.com"
               className="frosted p-2  mb-4 mx-8 w-80"
             />
           </label>
@@ -57,7 +56,6 @@ export default function SignInForm(props: Props) {
             <p className="mx-12 mt-4 mb-2 text-lg">Password</p>
             <input
               type="password"
-              placeholder="Do not use 1234"
               className="frosted p-2  mb-4 mx-8 w-80"
               onChange={(event) => setPassword(event.currentTarget.value)}
             />

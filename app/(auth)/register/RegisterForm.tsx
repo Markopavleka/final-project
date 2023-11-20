@@ -51,7 +51,6 @@ export default function RegisterForm(props: Props) {
               <p className="mx-12 mt-8 mb-2 text-lg">User Name</p>
               <input
                 className="frosted p-2  mb-4 mx-8 w-80"
-                placeholder="Maggie Simpson"
                 onChange={(event) => setUsername(event.currentTarget.value)}
               />
             </label>
@@ -59,7 +58,6 @@ export default function RegisterForm(props: Props) {
               <p className="mx-12 mt-8 mb-2 text-lg">E-Mail</p>
               <input
                 className="frosted p-2  mb-4 mx-8 w-80"
-                placeholder="magie.simpson@springfield.com"
                 onChange={(event) => setEmail(event.currentTarget.value)}
               />
             </label>
@@ -67,7 +65,6 @@ export default function RegisterForm(props: Props) {
               <p className="mx-12 mt-8 mb-2 text-lg">Password</p>
               <input
                 type="password"
-                placeholder="Do not use password as your password"
                 className="frosted p-2  mb-4 mx-8 w-80"
                 onChange={(event) => setPassword(event.currentTarget.value)}
               />

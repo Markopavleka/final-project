@@ -4,6 +4,12 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 import { getUserBlogPosts, getUserBySessionToken } from '../../database/users';
 
+export const metadata = {
+  title: 'TechNewZ|| Profile',
+  description:
+    'Stay ahead of the curve with TechNewZ, your source for the latest in the ever in the ever-evolving world of technology. At TechNewZ we pride ourselves on delivering unbiased and objective news coverage, ensuring you get an accurate and balanced insight into the fast-paced the fast-paced technology landscape.',
+};
+
 export default async function page() {
   const sessionTokenCookie = cookies().get('sessionToken');
 

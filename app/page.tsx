@@ -1,8 +1,20 @@
+import Head from 'next/head';
 import ScrollAnimation from './Components/scrollAnimation';
+
+export const metadata = {
+  title: 'TechNewZ|| Homepage',
+  description:
+    'Stay ahead of the curve with TechNewZ, your source for the latest in the ever in the ever-evolving world of technology. At TechNewZ we pride ourselves on delivering unbiased and objective news coverage, ensuring you get an accurate and balanced insight into the fast-paced the fast-paced technology landscape.',
+};
 
 export default function Home() {
   return (
-    <div className="">
+    <div>
+      <Head>
+        <meta charSet="utf-8" />
+        <title>TechNewZ</title>
+        <meta name="News" content="News" />
+      </Head>
       <div className="my-32">
         <h1 className="text-center font-bold text-6xl bg-gradient-to-b from-[#F5F5F5] to-primary text-transparent bg-clip-text">
           Welcome to TechNewZ
