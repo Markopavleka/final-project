@@ -9,6 +9,7 @@ import {
   UserBlogPostWithoutUserId,
 } from '../../../database/users';
 import HandleLike from '../handleLike';
+import Heart from '../Heart';
 import ShowLike from '../showLike';
 import CommentForm from './commentForm';
 import DisplayComments from './displayComments';
@@ -73,6 +74,9 @@ export default async function BlogPostPage(props: Props) {
             <div className="flex items-center justify-start my-1 ml-8">
               <div className="mx-4">
                 <ShowLike postId={singleBlogPost[0].postId} />
+              </div>
+              <div className="mr-2">
+                <Heart userId={user.id} postId={singleBlogPost[0].postId} />
               </div>
               <div>
                 <HandleLike

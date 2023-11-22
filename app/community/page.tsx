@@ -7,6 +7,7 @@ import { getAllBlogPosts } from '../../database/posts';
 import { getUserBlogPosts, getUserBySessionToken } from '../../database/users';
 import CreateBlogPostForm from './createBlogPostForm';
 import HandleLike from './handleLike';
+import Heart from './Heart';
 import ShowCommentsCount from './showCommentsCount';
 import ShowLike from './showLike';
 
@@ -77,8 +78,11 @@ export default async function Community() {
                     Comment
                   </Link>
                 </div>
-                <div>
+                <div className="mr-2">
                   <ShowLike postId={blogPost.postId} />
+                </div>
+                <div className="mr-2">
+                  <Heart userId={user.id} postId={blogPost.postId} />
                 </div>
                 <div className="mr-2">
                   <HandleLike userId={user.id} postId={blogPost.postId} />

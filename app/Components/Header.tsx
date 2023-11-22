@@ -33,15 +33,6 @@ export default async function Navbar() {
                 <li>
                   <Link
                     className="hover:underline hover:text-accent text-lg"
-                    href="/profile"
-                    tabIndex={0}
-                  >
-                    Profile
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="hover:underline hover:text-accent text-lg"
                     href="/news"
                     tabIndex={0}
                   >
@@ -55,6 +46,15 @@ export default async function Navbar() {
                     tabIndex={0}
                   >
                     Community
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="hover:underline hover:text-accent text-lg"
+                    href="/profile"
+                    tabIndex={0}
+                  >
+                    Profile
                   </Link>
                 </li>
               </ul>

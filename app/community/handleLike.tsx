@@ -1,6 +1,5 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { filledHeart } from '../Components/icons';
 
 type LikeFormProps = {
   userId: number;
@@ -28,7 +27,7 @@ export default function HandleLike({ userId, postId }: LikeFormProps) {
           await handleCreateLike();
         }}
       >
-        <button className="ml-2 hover:scale-125">{filledHeart}</button>
+        <button>Like</button>
       </form>
     </div>
   );

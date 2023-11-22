@@ -19,7 +19,7 @@ export default async function AccountSetup() {
     sessionTokenCookie &&
     (await getUserBySessionToken(sessionTokenCookie.value));
 
-  if (!user) redirect('/login?returnTo=/app');
+  if (!user) redirect('/login?returnTo=/login');
 
   return (
     <div>

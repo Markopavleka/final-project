@@ -8,6 +8,7 @@ import { getUserBySessionToken } from '../../../database/users';
 import { transformDateFormat } from '../../Components/DateConverter';
 import { getFetchNews } from '../action';
 import HandleLike from '../handleLikeNews';
+import Heart from '../Heart';
 import ShowLike from '../showLike';
 import CommentNewsForm from './commentNewsForm';
 import DisplayComments from './displayCommentsNews';
@@ -94,6 +95,9 @@ export default async function page(props: Props) {
           <div className="flex items-center justify-start my-1 ml-8">
             <div className="mx-4">
               <ShowLike postId={dataWithId[index].id} />
+            </div>
+            <div className="mr-2">
+              <Heart userId={user.id} newsId={dataWithId[index].id} />
             </div>
             <div>
               <HandleLike userId={user.id} newsId={dataWithId[index].id} />

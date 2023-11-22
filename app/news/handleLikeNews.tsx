@@ -1,6 +1,5 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { filledHeart } from '../Components/icons';
 
 type LikeFormProps = {
   userId: number;
@@ -31,12 +30,7 @@ export default function HandleLike({ userId, newsId }: LikeFormProps) {
           await handleCreateLike();
         }}
       >
-        <button
-          className="stroke-accent hover:scale-125 tooltip"
-          data-tip="Like"
-        >
-          {filledHeart}
-        </button>
+        <button>Like</button>
       </form>
     </div>
   );

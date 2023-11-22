@@ -23,7 +23,7 @@ export default function CreateBio(props: {
     });
     setBio('');
     router.refresh();
-    router.push('/profile');
+    router.push('/news');
   }
   return (
     <div>

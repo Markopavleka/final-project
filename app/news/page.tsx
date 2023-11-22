@@ -7,6 +7,7 @@ import { getUserBySessionToken } from '../../database/users';
 import { transformDateFormat } from '../Components/DateConverter';
 import { getFetchNews } from './action';
 import HandleLike from './handleLikeNews';
+import Heart from './Heart';
 import ScrollAnimation from './scrollAnimationNews';
 import ShowCommentsNewsCount from './showCommentsNewsCount';
 import ShowLike from './showLike';
@@ -79,7 +80,7 @@ export default async function NewsPage() {
             </p>
           </div>
           <div className="divider m-0" />
-          <div className="flex items-center justify-center my-1 ">
+          <div className="flex items-center justify-center my-1 max-h-8 ">
             <div className="mx-4">
               <ShowCommentsNewsCount newsId={news.id} />
             </div>
@@ -93,6 +94,9 @@ export default async function NewsPage() {
             </div>
             <div className="mx-4">
               <ShowLike postId={news.id} />
+            </div>
+            <div className="mr-4">
+              <Heart userId={user.id} newsId={news.id} />
             </div>
             <div className="mr-4">
               <HandleLike userId={user.id} newsId={news.id} />
