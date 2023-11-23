@@ -3,10 +3,10 @@ import { cache } from 'react';
 import { sql } from './connect';
 
 export type Comment = {
-  id: number | null;
-  userId: number | null;
-  postId: number | null;
-  comment: string | null;
+  id: number;
+  userId: number;
+  postId: number;
+  comment: string;
 };
 
 export const createComment = cache(
@@ -23,10 +23,10 @@ export const createComment = cache(
   },
 );
 type CommentWithUsername = {
-  commentId: number | null;
-  comment: string | null;
-  postId: number | null;
-  username: string | null;
+  commentId: number;
+  comment: string;
+  postId: number;
+  username: string;
   profilePicture: string | null;
 };
 

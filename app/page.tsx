@@ -2,7 +2,7 @@ import Head from 'next/head';
 import ScrollAnimation from './Components/scrollAnimation';
 
 export const metadata = {
-  title: 'TechNewZ|| Homepage',
+  title: 'TechNewZ || Homepage',
   description:
     'Stay ahead of the curve with TechNewZ, your source for the latest in the ever in the ever-evolving world of technology. At TechNewZ we pride ourselves on delivering unbiased and objective news coverage, ensuring you get an accurate and balanced insight into the fast-paced the fast-paced technology landscape.',
 };

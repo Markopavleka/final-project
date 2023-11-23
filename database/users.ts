@@ -10,29 +10,34 @@ export type UserWithPasswordHash = {
   backgroundPicture: string | null;
   bio: string | null;
 };
-export type UserWithoutEmail = {
+
+export type UserWithoutPasswordHash = {
   id: number;
   username: string;
-  profilePicture: string;
-  backgroundPicture: string;
-  bio: string;
+  profilePicture: string | null;
+  backgroundPicture: string | null;
+  bio: string | null;
 };
+
+export type UserWithoutEmail = { id: number; username: string };
 
 export type UserBlogPost = {
   postId: number;
   title: string;
   post: string;
   username: string;
-  userId: number;
+  profilePicture: string | null;
 };
 
-export type UserBlogPostWithoutUserId = {
+export type UserBlogPostWithUserId = {
   postId: number;
   title: string;
   post: string;
   username: string;
-  profilePicture: string;
+  userId: number;
+  profilePicture: string | null;
 };
+
 export type UserNameEmail = {
   id: number;
   username: string;
@@ -85,7 +90,7 @@ export const getUserWithPasswordHashByUsername = cache(
 );
 
 export const getUserBySessionToken = cache(async (token: string) => {
-  const [user] = await sql<UserWithoutEmail[]>`
+  const [user] = await sql<UserWithoutPasswordHash[]>`
    SELECT
       users.id,
       users.username,
@@ -104,30 +109,13 @@ export const getUserBySessionToken = cache(async (token: string) => {
   return user;
 });
 
-/* export const updateUserByUsername = cache(
-  async (id: number, username: string, email: string, passwordHash: string) => {
-    const [user] = await sql<UserWithPasswordHash[]>`
-      UPDATE
-        users
-      SET
-        id = ${id},
-        email = ${email},
-        password_hash = ${passwordHash}
-
-      WHERE username = ${username.toLowerCase()}
-      RETURNING *
-    `;
-    return user;
-  },
-); */
-
 export const getUserBlogPostBySessionToken = cache(async (token: string) => {
-  const notes = await sql<UserBlogPostWithoutUserId[]>`
+  const notes = await sql<UserBlogPost[]>`
    SELECT
       posts.id AS post_id,
       posts.title AS title,
       posts.post AS post,
-      users.username AS username
+      users.username AS username,
       users.profile_picture as profile_picture
     FROM
       posts
@@ -144,7 +132,7 @@ export const getUserBlogPostBySessionToken = cache(async (token: string) => {
 });
 
 export const getUserBlogPosts = cache(async (token: string) => {
-  const notes = await sql<UserBlogPost[]>`
+  const notes = await sql<UserBlogPostWithUserId[]>`
     SELECT
       posts.id AS post_id,
       posts.title AS title,

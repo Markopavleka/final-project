@@ -3,13 +3,6 @@ import { cache } from 'react';
 import { Like } from '../migrations/00004-createTableLikes';
 import { sql } from './connect';
 
-export const getLike = cache(async () => {
-  const likes = await sql<Like[]>`
-    SELECT * FROM likes
-  `;
-  return likes;
-});
-
 export const getLikeById = cache(async (id: number) => {
   const [like] = await sql<Like[]>`
     SELECT

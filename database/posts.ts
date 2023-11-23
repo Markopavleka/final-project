@@ -2,14 +2,6 @@ import 'server-only';
 import { cache } from 'react';
 import { Post } from '../migrations/00002-createTablePosts';
 import { sql } from './connect';
-import { UserBlogPostWithoutUserId } from './users';
-
-export const getPosts = cache(async () => {
-  const posts = await sql<Post[]>`
-    SELECT * FROM posts
-  `;
-  return posts;
-});
 
 export const deletePostByUserId = cache(async (userId: number) => {
   const [post] = await sql<Post[]>`
@@ -37,8 +29,16 @@ export const createBlogPost = cache(
   },
 );
 
+type UserBlogPostWithUserData = {
+  postId: number;
+  title: string;
+  post: string;
+  username: string | null;
+  profilePicture: string | null;
+};
+
 export const getAllBlogPosts = cache(async () => {
-  const notes = await sql<UserBlogPostWithoutUserId[]>`
+  const notes = await sql<UserBlogPostWithUserData[]>`
 
 SELECT
   posts.id AS post_id,
@@ -54,8 +54,16 @@ LEFT JOIN
   return notes;
 });
 
+type UserBlogPostWithUserDataById = {
+  postId: number;
+  title: string;
+  post: string;
+  username: string;
+  profilePicture: string | null;
+};
+
 export const getBlogPostsById = cache(async (id: number) => {
-  const notes = await sql<UserBlogPostWithoutUserId[]>`
+  const notes = await sql<UserBlogPostWithUserDataById[]>`
     SELECT
       posts.id AS post_id,
       posts.title AS title,
