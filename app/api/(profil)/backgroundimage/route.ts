@@ -6,10 +6,12 @@ import {
   updateUserBackgroundPicture,
   UserProfilePicture,
 } from '../../../../database/users';
+import { validateTokenAgainstSecret } from '../../../../util/csrf';
 
 const updateUserSchema = z.object({
   userId: z.number(),
   backgroundPicture: z.string(),
+  csrfToken: z.string(),
 });
 
 export type PictureResponseBodyPost =
@@ -23,34 +25,43 @@ export type PictureResponseBodyPost =
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<PictureResponseBodyPost>> {
-  // Task: Implement the user registration workflow
-
-  // 1. Get the user data from the request
   const body = await request.json();
-
-  // 2. Validate the user data
   const result = updateUserSchema.safeParse(body);
 
   if (!result.success) {
-    return NextResponse.json(
-      { errors: result.error.issues },
-      {
-        status: 400,
-      },
-    );
+    return NextResponse.json({ errors: result.error.issues }, { status: 400 });
   }
+
   const sessionTokenCookie = cookies().get('sessionToken');
 
-  // 2. check if the token has a valid session
   const session =
     sessionTokenCookie &&
     (await getValidSessionByToken(sessionTokenCookie.value));
 
   if (!session) {
     return NextResponse.json(
-      {
-        errors: [{ message: 'Authentication token is invalid' }],
-      },
+      { errors: [{ message: 'Authentication token is invalid' }] },
+      { status: 401 },
+    );
+  }
+
+  const csrfToken = result.data.csrfToken;
+
+  if (!csrfToken) {
+    return NextResponse.json(
+      { errors: [{ message: 'CSRF token is missing' }] },
+      { status: 401 },
+    );
+  }
+
+  const isValidCsrfToken = validateTokenAgainstSecret(
+    session.csrfSecret,
+    csrfToken,
+  );
+
+  if (!isValidCsrfToken) {
+    return NextResponse.json(
+      { errors: [{ message: 'CSRF token is not valid' }] },
       { status: 401 },
     );
   }
@@ -62,10 +73,8 @@ export async function POST(
 
   if (!newUpdatedUser) {
     return NextResponse.json(
-      { errors: [{ message: 'Error creating the picture' }] },
-      {
-        status: 401,
-      },
+      { errors: [{ message: 'Error updating the picture' }] },
+      { status: 500 },
     );
   }
 

@@ -6,6 +6,7 @@ export default function UploadPictureForm(props: {
   username: string;
   profilePicture: string;
   userId: number;
+  csrfToken: string;
 }) {
   const router = useRouter();
   const userId = Number(props.userId);
@@ -62,6 +63,7 @@ export default function UploadPictureForm(props: {
               body: JSON.stringify({
                 userId,
                 backgroundPicture,
+                csrfToken: props.csrfToken,
               }),
             });
             router.refresh();

@@ -4,6 +4,7 @@ export type Session = {
   id: number;
   token: string;
   userId: number;
+  csrfSecret: string;
 };
 
 export async function up(sql: Sql) {

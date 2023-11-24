@@ -17,6 +17,7 @@ export type UserWithoutPasswordHash = {
   profilePicture: string | null;
   backgroundPicture: string | null;
   bio: string | null;
+  csrfToken: string;
 };
 
 export type UserWithoutEmail = { id: number; username: string };
@@ -91,20 +92,23 @@ export const getUserWithPasswordHashByUsername = cache(
 
 export const getUserBySessionToken = cache(async (token: string) => {
   const [user] = await sql<UserWithoutPasswordHash[]>`
-   SELECT
-      users.id,
-      users.username,
-      users.profile_picture,
-      users.background_picture,
-      users.bio
-    FROM
-      users
-    INNER JOIN
-      sessions ON (
-        sessions.token = ${token} AND
-        sessions.user_id = users.id AND
-        sessions.expiry_timestamp > now()
-      )
+SELECT
+  users.id,
+  users.username,
+  users.profile_picture,
+  users.background_picture,
+  users.bio,
+  sessions.csrf_token
+FROM
+  users
+INNER JOIN
+  sessions ON (
+    sessions.user_id = users.id AND
+    sessions.expiry_timestamp > now()
+  )
+WHERE
+  sessions.token = ${token};
+
   `;
   return user;
 });

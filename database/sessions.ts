@@ -11,22 +11,25 @@ export const deleteExpiredSessions = cache(async () => {
     `;
 });
 
-export const createSession = cache(async (userId: number, token: string) => {
-  const [session] = await sql<Session[]>`
+export const createSession = cache(
+  async (userId: number, token: string, csrfSecret: string) => {
+    const [session] = await sql<Session[]>`
       INSERT INTO sessions
-        (user_id, token)
+        (user_id, token, csrf_secret)
       VALUES
-        (${userId}, ${token})
+        (${userId}, ${token}, ${csrfSecret})
       RETURNING
         id,
         token,
-        user_id
+        user_id,
+        csrf_secret
     `;
 
-  await deleteExpiredSessions();
+    await deleteExpiredSessions();
 
-  return session;
-});
+    return session;
+  },
+);
 
 export const deleteSessionByToken = cache(async (token: string) => {
   const [session] = await sql<{ id: number; token: string }[]>`
@@ -43,10 +46,13 @@ export const deleteSessionByToken = cache(async (token: string) => {
 });
 
 export const getValidSessionByToken = cache(async (token: string) => {
-  const [session] = await sql<{ id: number; token: string }[]>`
+  const [session] = await sql<
+    { id: number; token: string; csrfSecret: string }[]
+  >`
     SELECT
       sessions.id,
-      sessions.token
+      sessions.token,
+      sessions.csrf_secret
     FROM
       sessions
     WHERE

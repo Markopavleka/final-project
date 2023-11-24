@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import { getUserBySessionToken } from '../../../../database/users';
+import { createTokenFromSecret } from '../../../../util/csrf';
 import UploadPictureForm from './uploadPictureForm';
 
 export const metadata = {
@@ -20,6 +21,7 @@ export default async function AccountSetup() {
     (await getUserBySessionToken(sessionTokenCookie.value));
 
   if (!user) redirect('/login?returnTo=/signin');
+  const csrfToken = createTokenFromSecret(user.csrfSecret);
 
   return (
     <div>
@@ -35,8 +37,9 @@ export default async function AccountSetup() {
         <div className="card frosted p-8 mx-auto  mb-12">
           <UploadPictureForm
             username={user.username}
-            profilePicture={user.profilePicture}
+            profilePicture={user.profilePicture ? user.profilePicture : ''}
             userId={user.id}
+            csrfToken={csrfToken}
           />
 
           <ul className="steps my-8">

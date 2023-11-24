@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { createSession } from '../../../../database/sessions';
 import { createUser, getUserByUsername } from '../../../../database/users';
 import { secureCookieOptions } from '../../../../util/cookies';
+import { createCsrfSecret } from '../../../../util/csrf';
 
 const registerSchema = z.object({
   username: z.string().min(3),
@@ -77,7 +78,9 @@ export async function POST(
 
   const token = crypto.randomBytes(100).toString('base64');
 
-  const session = await createSession(newUser.id, token);
+  const csrfSecret = createCsrfSecret();
+
+  const session = await createSession(newUser.id, token, csrfSecret);
 
   if (!session) {
     return NextResponse.json(
